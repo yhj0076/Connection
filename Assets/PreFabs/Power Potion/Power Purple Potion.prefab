@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 2841712792253650477}
   - component: {fileID: 1046561234113812774}
   - component: {fileID: 7565076391133601787}
-  - component: {fileID: 1236618941509561824}
+  - component: {fileID: -6772126238792768770}
   m_Layer: 0
-  m_Name: Power Green Potion
+  m_Name: Power Purple Potion
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,7 +58,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fc85b477bc3c5444e9fc8425c4db688c, type: 2}
+  - {fileID: 2100000, guid: b9c3e610e68e65e4bb92d088e7f25930, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300024, guid: ddf8838d0a06d8d4c9dec9e3bed69260, type: 3}
+  m_Sprite: {fileID: 21300016, guid: ddf8838d0a06d8d4c9dec9e3bed69260, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -103,8 +103,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
-  sameType: 2
+  sameType: 3
   destroyList: []
+  BulletMaker: {fileID: 0}
 --- !u!58 &1649151861207289913
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -255,7 +256,7 @@ PolygonCollider2D:
       - {x: 0.40625, y: 0.46875}
       - {x: 0.09375, y: 0.78125}
   m_UseDelaunayMesh: 0
---- !u!95 &1236618941509561824
+--- !u!95 &-6772126238792768770
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -265,7 +266,7 @@ Animator:
   m_GameObject: {fileID: 3169647718460276875}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 87390fa6d3e9c1d46b4d6ddd0734b561, type: 2}
+  m_Controller: {fileID: 9100000, guid: 97c62c9b53372db47b7558c7f835dd3d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

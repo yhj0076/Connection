@@ -43,12 +43,11 @@ public class Stage : MonoBehaviour
                 }
                 else if (hit.collider.gameObject.GetComponent<ChanceBullet>())
                 {
-                    gainedDamage += hit.collider.transform.childCount;
-                    if (hit.collider.gameObject.GetComponent<ChanceBullet>().type == ChanceBullet.ChanceType.Explode)
-                    {
-                        BulletMaker.GetComponent<BulletMaker>().MakeBullet(hit.collider.transform.childCount);
-                    }
                     hit.collider.GetComponent<ChanceBullet>().whenDestroy();
+                    hit.collider.GetComponent<ChanceBullet>().AddDMG();
+                    int destroyCount = hit.collider.GetComponent<ChanceBullet>().DMG;
+                    BulletMaker.GetComponent<BulletMaker>().MakeBullet(destroyCount);
+                    hit.collider.GetComponent<ChanceBullet>().DestroyThis();
                     Destroy(hit.collider.gameObject);
                 }
             }

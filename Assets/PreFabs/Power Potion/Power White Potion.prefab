@@ -58,7 +58,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fc85b477bc3c5444e9fc8425c4db688c, type: 2}
+  - {fileID: 2100000, guid: 6f19440ab11a12e4784f52559f12d8ef, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -105,6 +105,7 @@ MonoBehaviour:
   type: 1
   sameType: 4
   destroyList: []
+  BulletMaker: {fileID: 0}
 --- !u!58 &1649151861207289913
 CircleCollider2D:
   m_ObjectHideFlags: 0

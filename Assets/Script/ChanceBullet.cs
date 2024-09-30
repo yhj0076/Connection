@@ -10,6 +10,24 @@ public class ChanceBullet : MonoBehaviour
     public BulletType sameType;
     bool bomb;
     public List<GameObject> destroyList = new();
+    public GameObject BulletMaker;
+    public int DMG;
+
+    private void Start()
+    {
+        BulletMaker = this.transform.parent.gameObject;
+    }
+
+    public void AddDMG()
+    {
+        GameObject.FindObjectOfType<Stage>().GetComponent<Stage>().gainedDamage += DMG;
+    }
+
+    public  void DestroyThis()
+    {
+        Destroy(this.gameObject);
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -36,49 +54,35 @@ public class ChanceBullet : MonoBehaviour
     {
         if (type == ChanceType.Explode)
         {
+            int destroyCount = destroyList.Count;
+            DMG = destroyCount;
             Debug.Log("Bomb!!");
-            for (int i = 0; i < destroyList.Count; ++i)
+            for (int i = 0; i < destroyCount; ++i)
             {
                 Destroy(destroyList[0]);
             }
         }
         else if (type == ChanceType.Same)
         {
-            GameObject bulletMaker = this.transform.parent.gameObject;
             if (sameType == BulletType.Red)
             {
-                foreach (GameObject go in bulletMaker.transform.GetChild(0))
-                {
-                    Destroy(go);
-                }
+                DestroySameBullets(0);
             }
-            if (sameType == BulletType.Green)
+            else if (sameType == BulletType.Green)
             {
-                foreach (GameObject go in bulletMaker.transform.GetChild(1))
-                {
-                    Destroy(go);
-                }
+                DestroySameBullets(1);
             }
-            if (sameType == BulletType.Blue)
+            else if (sameType == BulletType.Blue)
             {
-                foreach (GameObject go in bulletMaker.transform.GetChild(2))
-                {
-                    Destroy(go);
-                }
+                DestroySameBullets(2);
             }
-            if (sameType == BulletType.Purple)
+            else if (sameType == BulletType.Purple)
             {
-                foreach (GameObject go in bulletMaker.transform.GetChild(3))
-                {
-                    Destroy(go);
-                }
+                DestroySameBullets(3);
             }
-            if (sameType == BulletType.White)
+            else if (sameType == BulletType.White)
             {
-                for (int i = 0; i < bulletMaker.transform.GetChild(4).childCount; i++)
-                {
-                    Destroy(bulletMaker.transform.GetChild(4).gameObject);
-                }
+                DestroySameBullets(4);
             }
 
             // search all same bullets
@@ -88,6 +92,21 @@ public class ChanceBullet : MonoBehaviour
         {
             // claer all bullets
         }
+    }
+
+    private void DestroySameBullets(int index)
+    {
+        //Debug.Log(bulletMaker.transform.GetChild(0).name);
+        //bulletMaker.transform.GetChild(0).GetComponent<BulletParent>().DestroyThis();
+        //bulletMaker.GetComponent<BulletMaker>().MakeParent(0);
+        int allNum = BulletMaker.transform.GetChild(index).childCount;
+        DMG = allNum;
+        for (int i = 0; i < allNum; i++)
+        {
+            BulletMaker.transform.GetChild(index).GetChild(i).GetComponent<Bullet>().DestroyThis();
+            Debug.Log("destroyed!");
+        }
+        BulletMaker.GetComponent<BulletMaker>().MakeBullet(allNum);
     }
 
     public enum ChanceType

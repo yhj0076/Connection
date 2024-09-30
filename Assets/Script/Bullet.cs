@@ -29,4 +29,9 @@ public class Bullet : MonoBehaviour
         Purple,
         White
     }
+
+    public void DestroyThis()
+    {
+        Destroy(this.gameObject);
+    }
 }

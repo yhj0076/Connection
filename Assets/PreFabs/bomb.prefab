@@ -104,6 +104,8 @@ MonoBehaviour:
   type: 2
   sameType: 0
   destroyList: []
+  BulletMaker: {fileID: 0}
+  DMG: 0
 --- !u!58 &6627579067871993538
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -200,7 +202,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 1.5
 --- !u!95 &-2334725343004194047
 Animator:
   serializedVersion: 5

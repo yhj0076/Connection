@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shine
+  m_Name: ShineWhite
   m_Shader: {fileID: 4800000, guid: efe5a3d2ad2985a499a1912dda17e946, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
