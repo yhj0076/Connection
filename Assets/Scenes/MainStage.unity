@@ -526,7 +526,7 @@ MonoBehaviour:
   - {fileID: 3169647718460276875, guid: 9e10f0d796e7b6b4e8e801d6bdd460a1, type: 3}
   - {fileID: 3169647718460276875, guid: 93a3eeaefeea51b47a4087069cd91184, type: 3}
   - {fileID: 3169647718460276875, guid: 15731a21ea4ee364ba375876373a9e45, type: 3}
-  BigBang: {fileID: 0}
+  BigBang: {fileID: 6911133935088845235, guid: fd6783f8b26344a45bc70491093a3c56, type: 3}
 --- !u!4 &606642721
 Transform:
   m_ObjectHideFlags: 0

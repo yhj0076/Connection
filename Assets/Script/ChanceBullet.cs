@@ -91,6 +91,7 @@ public class ChanceBullet : MonoBehaviour
         else if (type == ChanceType.BigBang)
         {
             // claer all bullets
+            DestroyAllBullets();
         }
     }
 
@@ -107,6 +108,14 @@ public class ChanceBullet : MonoBehaviour
             Debug.Log("destroyed!");
         }
         BulletMaker.GetComponent<BulletMaker>().MakeBullet(allNum);
+    }
+
+    private void DestroyAllBullets()
+    {
+        for(int i = 0; i<5; i++)
+        {
+            DestroySameBullets(i);
+        }
     }
 
     public enum ChanceType

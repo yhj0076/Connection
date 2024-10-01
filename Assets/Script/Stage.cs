@@ -116,6 +116,14 @@ public class Stage : MonoBehaviour
         int midValue = (int)choose.Count / 2;
         Vector3 midVector = choose[midValue].gameObject.transform.position;
         Debug.Log("MakingBullet Mid : " + midVector);
+        if (BulletCount >= 10)
+        {
+            GameObject No3Bomb = Instantiate(BigBang);
+            No3Bomb.transform.position = midVector;
+            No3Bomb.transform.parent = BulletMaker.transform;
+            return;
+            // Destroy All Bullet.
+        }
         if (BulletCount >= 7)
         {
             GameObject No2Bomb = null;
@@ -156,12 +164,7 @@ public class Stage : MonoBehaviour
         }
 
 
-        if (BulletCount >= 10)
-        {
 
-            return;
-            // Destroy All Bullet.
-        }
     }
 
     public void ShakeStage()
