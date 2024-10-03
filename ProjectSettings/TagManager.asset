@@ -17,7 +17,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - InsideUI
   - 
   - 
   - 
@@ -40,6 +40,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BG
+    uniqueID: 2340549029
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

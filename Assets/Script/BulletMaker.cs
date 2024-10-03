@@ -12,7 +12,6 @@ public class BulletMaker : MonoBehaviour
     public GameObject purples;
     public GameObject whites;
 
-
     public void MakeBullet(int count)
     {
         for (int i = 0; i < count; i++)

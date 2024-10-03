@@ -25,7 +25,8 @@ public class ChanceBullet : MonoBehaviour
 
     public  void DestroyThis()
     {
-        Destroy(this.gameObject);
+        BulletMaker.GetComponent<BulletMaker>().MakeBullet(DMG);
+        Destroy(gameObject);
     }
 
 
@@ -107,7 +108,7 @@ public class ChanceBullet : MonoBehaviour
             BulletMaker.transform.GetChild(index).GetChild(i).GetComponent<Bullet>().DestroyThis();
             Debug.Log("destroyed!");
         }
-        BulletMaker.GetComponent<BulletMaker>().MakeBullet(allNum);
+
     }
 
     private void DestroyAllBullets()
@@ -116,6 +117,7 @@ public class ChanceBullet : MonoBehaviour
         {
             DestroySameBullets(i);
         }
+        DMG = 50;
     }
 
     public enum ChanceType

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Stage : MonoBehaviour
 {
+    public GameObject StageManager;
     public GameObject BulletMaker;
     public int MaxBullet;
     public int connection = 0;
@@ -19,6 +20,7 @@ public class Stage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StageManager.GetComponent<StageManager>().UpdateData();
         BulletMaker.GetComponent<BulletMaker>().MakeBullet(MaxBullet);
     }
 
@@ -45,8 +47,8 @@ public class Stage : MonoBehaviour
                 {
                     hit.collider.GetComponent<ChanceBullet>().whenDestroy();
                     hit.collider.GetComponent<ChanceBullet>().AddDMG();
-                    int destroyCount = hit.collider.GetComponent<ChanceBullet>().DMG;
-                    BulletMaker.GetComponent<BulletMaker>().MakeBullet(destroyCount);
+                    //int destroyCount = hit.collider.GetComponent<ChanceBullet>().DMG;
+                    //BulletMaker.GetComponent<BulletMaker>().MakeBullet(destroyCount);
                     hit.collider.GetComponent<ChanceBullet>().DestroyThis();
                     Destroy(hit.collider.gameObject);
                 }
@@ -96,6 +98,7 @@ public class Stage : MonoBehaviour
             }
             choose.Clear();
             line.positionCount = 0;
+            StageManager.GetComponent<StageManager>().UpdateData();
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -150,7 +153,6 @@ public class Stage : MonoBehaviour
 
             No2Bomb.transform.position = midVector;
             No2Bomb.transform.parent = BulletMaker.transform;
-
             return;
             // Destroy All same Bullet.
         }
@@ -162,9 +164,6 @@ public class Stage : MonoBehaviour
             return;
             // Explode connected Bullet.
         }
-
-
-
     }
 
     public void ShakeStage()
