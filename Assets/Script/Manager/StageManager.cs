@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
+    public GameObject timeText;
     public GameObject Stage;
     public GameObject PlayerRatio;
     public GameObject EnemyRatio;
@@ -17,15 +18,24 @@ public class StageManager : MonoBehaviour
     public float LeftRatio = 0.5f;
     public float RightRatio = 0.5f;
 
+    public float LeftTime;
+
+    float tmpTime;
     Vector2 firstSizePlayer;
     Vector2 firstSizeEnemy;
     // ∫Ò¿≤ : Player / Player + Enemy
     // Start is called before the first frame update
 
-    void Start()
+    void Awake()
     {
+        tmpTime = LeftTime;
         firstSizePlayer = PlayerRatio.GetComponent<RectTransform>().sizeDelta;
         firstSizeEnemy = EnemyRatio.GetComponent<RectTransform>().sizeDelta;
+    }
+
+    private void Update()
+    {
+        Timer();
     }
 
     public void UpdateData()
@@ -71,5 +81,20 @@ public class StageManager : MonoBehaviour
         PlayerDMG.GetComponent<TextMeshProUGUI>().text = PlayerPower.ToString();
         EnemyRatio.GetComponent<RectTransform>().sizeDelta = firstSizeEnemy * new Vector2(RightRatio, 1f);
         EnemyDMG.GetComponent<TextMeshProUGUI>().text = EnemyPower.ToString();
+    }
+
+    private void Timer()
+    {
+        if (LeftTime > 0)
+        {
+            LeftTime -= Time.deltaTime;
+            int intTime = (int)LeftTime;
+            timeText.GetComponent<TextMeshProUGUI>().text = intTime.ToString();
+        }
+        else
+        {
+            // Attack
+            LeftTime = tmpTime;
+        }
     }
 }
