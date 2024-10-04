@@ -104,6 +104,7 @@ public class StageManager : MonoBehaviour
             float dmg = PlayerPower - EnemyPower;
             HealthManager.GetComponent<HealthManager>().Attack(dmg);
             LeftTime = tmpTime;
+            Stage.GetComponent<Stage>().gainedDamage = 0;
             PlayerPower = 0;
             EnemyPower = 0;
             UpdateData();

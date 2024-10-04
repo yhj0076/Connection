@@ -37,6 +37,8 @@ public class HealthManager : MonoBehaviour
             {
                 Vector2 DMG = new Vector2(0, 1);
                 EnemyHP.GetComponent<RectTransform>().sizeDelta = EnemyFullGage * DMG;
+                GameObject gameManager = FindObjectOfType<GameManager>().gameObject;
+                gameManager.GetComponent<GameManager>().Clear();
             }
         }
         else if(dmg < 0)
@@ -51,6 +53,8 @@ public class HealthManager : MonoBehaviour
             {
                 Vector2 DMG = new Vector2(0, 1);
                 PlayerHP.GetComponent<RectTransform>().sizeDelta = PlayerFullGage * DMG;
+                GameObject gameManager = FindObjectOfType<GameManager>().gameObject;
+                //gameManager.GetComponent<GameManager>().Die();
             }
         }
     }

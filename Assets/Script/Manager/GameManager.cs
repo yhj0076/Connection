@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     public void Clear()
     {
-        SceneManager.LoadScene(8);
+        SceneManager.LoadScene(4);
     }
 
     public void Story()
