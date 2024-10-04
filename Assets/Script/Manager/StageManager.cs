@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
+    public GameObject HealthManager;
     public GameObject timeText;
     public GameObject Stage;
     public GameObject PlayerRatio;
@@ -20,6 +21,8 @@ public class StageManager : MonoBehaviour
 
     public float LeftTime;
 
+    State state;
+
     float tmpTime;
     Vector2 firstSizePlayer;
     Vector2 firstSizeEnemy;
@@ -28,6 +31,7 @@ public class StageManager : MonoBehaviour
 
     void Awake()
     {
+        state = State.InGame;
         tmpTime = LeftTime;
         firstSizePlayer = PlayerRatio.GetComponent<RectTransform>().sizeDelta;
         firstSizeEnemy = EnemyRatio.GetComponent<RectTransform>().sizeDelta;
@@ -35,7 +39,10 @@ public class StageManager : MonoBehaviour
 
     private void Update()
     {
-        Timer();
+        if (state == State.InGame)
+        {
+            Timer();
+        }
     }
 
     public void UpdateData()
@@ -94,7 +101,18 @@ public class StageManager : MonoBehaviour
         else
         {
             // Attack
+            float dmg = PlayerPower - EnemyPower;
+            HealthManager.GetComponent<HealthManager>().Attack(dmg);
             LeftTime = tmpTime;
+            PlayerPower = 0;
+            EnemyPower = 0;
+            UpdateData();
         }
+    }
+
+    enum State
+    {
+        InGame,
+        Stop
     }
 }

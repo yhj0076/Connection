@@ -28,14 +28,30 @@ public class HealthManager : MonoBehaviour
         if(dmg > 0)
         {
             EnemyHealth -= dmg;
-            Vector2 DMG = new Vector2(EnemyHealth/EnemyFullHP, 1);
-            EnemyHP.GetComponent<RectTransform>().sizeDelta = EnemyFullGage * DMG;
+            if (EnemyHealth > 0)
+            {
+                Vector2 DMG = new Vector2(EnemyHealth / EnemyFullHP, 1);
+                EnemyHP.GetComponent<RectTransform>().sizeDelta = EnemyFullGage * DMG;
+            }
+            else
+            {
+                Vector2 DMG = new Vector2(0, 1);
+                EnemyHP.GetComponent<RectTransform>().sizeDelta = EnemyFullGage * DMG;
+            }
         }
         else if(dmg < 0)
         {
             PlayerHealth -= dmg;
-            Vector2 DMG = new Vector2(PlayerHealth / PlayerFullHP, 1);
-            PlayerHP.GetComponent<RectTransform>().sizeDelta = PlayerFullGage * DMG;
+            if (PlayerHealth > 0)
+            {
+                Vector2 DMG = new Vector2(PlayerHealth / PlayerFullHP, 1);
+                PlayerHP.GetComponent<RectTransform>().sizeDelta = PlayerFullGage * DMG;
+            }
+            else
+            {
+                Vector2 DMG = new Vector2(0, 1);
+                PlayerHP.GetComponent<RectTransform>().sizeDelta = PlayerFullGage * DMG;
+            }
         }
     }
 }

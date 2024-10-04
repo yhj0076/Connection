@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEditor.MemoryProfiler;
 using UnityEngine;
 
@@ -59,16 +60,19 @@ public class Stage : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-            if(hit.collider != null && 
-                hit.collider.gameObject.GetComponent<Bullet>().type == start &&
-                !hit.collider.gameObject.GetComponent<Bullet>().choosed &&
-                choose[choose.Count-1].GetComponent<Bullet>().connectedBullet.Contains(hit.collider.gameObject))
+            if (hit.collider != null)
             {
-                Bullet bullet = hit.collider.gameObject.GetComponent<Bullet>();
-                bullet.choosed = true;
-                choose.Add(bullet.gameObject);
-                line.positionCount++;           
+                if( hit.collider.gameObject.GetComponent<Bullet>().type == start &&
+                    !hit.collider.gameObject.GetComponent<Bullet>().choosed &&
+                    choose[choose.Count - 1].GetComponent<Bullet>().connectedBullet.Contains(hit.collider.gameObject))
+                {
+                    Bullet bullet = hit.collider.gameObject.GetComponent<Bullet>();
+                    bullet.choosed = true;
+                    choose.Add(bullet.gameObject);
+                    line.positionCount++;
+                }
             }
+
             for (int i = 0; i < choose.Count; i++) 
             {
                 line.SetPosition(i, choose[i].gameObject.transform.position);
@@ -106,10 +110,10 @@ public class Stage : MonoBehaviour
             ShakeStage();
         }
 
-        if(transform.position.y <= -0.5f)
+        if(transform.position.y <= 0)
         {
             GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-            GetComponent<Transform>().position = new Vector3(0,-0.5f,0);
+            GetComponent<Transform>().position = Vector3.zero;
             Shaking = false;
         }
     }
@@ -178,7 +182,7 @@ public class Stage : MonoBehaviour
 
     public void Vup()
     {
-        GetComponent<Transform>().position = new Vector3(0,-0.499f,0);
+        GetComponent<Transform>().position = new Vector3(0,0.001f,0);
         Rigidbody2D rigid = GetComponent<Rigidbody2D>();
         rigid.velocity = Vector2.up * 3;
     }
