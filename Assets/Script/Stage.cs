@@ -106,10 +106,10 @@ public class Stage : MonoBehaviour
             ShakeStage();
         }
 
-        if(transform.position.y <= 0)
+        if(transform.position.y <= -0.5f)
         {
             GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-            GetComponent<Transform>().position = Vector3.zero;
+            GetComponent<Transform>().position = new Vector3(0,-0.5f,0);
             Shaking = false;
         }
     }
@@ -178,7 +178,7 @@ public class Stage : MonoBehaviour
 
     public void Vup()
     {
-        GetComponent<Transform>().position = new Vector3(0,0.001f,0);
+        GetComponent<Transform>().position = new Vector3(0,-0.499f,0);
         Rigidbody2D rigid = GetComponent<Rigidbody2D>();
         rigid.velocity = Vector2.up * 3;
     }
