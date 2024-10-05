@@ -37,4 +37,9 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(6);
     }
+
+    public void Option()
+    {
+        SceneManager.LoadScene(1);
+    }
 }
