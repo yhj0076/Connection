@@ -1069,6 +1069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f60ecb14d7955e245a95c34175664252, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Sensitivity: 5
   StageManager: {fileID: 1121065438}
   BulletMaker: {fileID: 2134194934}
   MaxBullet: 50
@@ -2186,7 +2187,7 @@ Camera:
   m_GameObject: {fileID: 1257404256}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -2813,7 +2814,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 2340, y: 1080}
-  m_ScreenMatchMode: 1
+  m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96

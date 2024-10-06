@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
-using UnityEditor.MemoryProfiler;
 using UnityEngine;
 
 public class Stage : MonoBehaviour
 {
+    Vector3 accelerationDir;
+    public float Sensitivity;
+
     public GameObject StageManager;
     public GameObject BulletMaker;
     public int MaxBullet;
@@ -28,94 +30,7 @@ public class Stage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        LineRenderer line = this.GetComponent<LineRenderer>();
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-
-            if (hit.collider != null)
-            {
-                if (hit.collider.gameObject.GetComponent<Bullet>())
-                {
-                    Bullet bullet = hit.collider.gameObject.GetComponent<Bullet>();
-                    start = bullet.type;
-                    bullet.choosed = true;
-                    choose.Add(bullet.gameObject);
-                    line.positionCount = 1;
-                }
-                else if (hit.collider.gameObject.GetComponent<ChanceBullet>())
-                {
-                    hit.collider.GetComponent<ChanceBullet>().whenDestroy();
-                    hit.collider.GetComponent<ChanceBullet>().AddDMG();
-                    //int destroyCount = hit.collider.GetComponent<ChanceBullet>().DMG;
-                    //BulletMaker.GetComponent<BulletMaker>().MakeBullet(destroyCount);
-                    hit.collider.GetComponent<ChanceBullet>().DestroyThis();
-                    Destroy(hit.collider.gameObject);
-                }
-            }
-        }
-
-        if (Input.GetMouseButton(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-            if (hit.collider != null)
-            {
-                if( hit.collider.gameObject.GetComponent<Bullet>().type == start &&
-                    !hit.collider.gameObject.GetComponent<Bullet>().choosed &&
-                    choose[choose.Count - 1].GetComponent<Bullet>().connectedBullet.Contains(hit.collider.gameObject))
-                {
-                    Bullet bullet = hit.collider.gameObject.GetComponent<Bullet>();
-                    bullet.choosed = true;
-                    choose.Add(bullet.gameObject);
-                    line.positionCount++;
-                }
-            }
-
-            for (int i = 0; i < choose.Count; i++) 
-            {
-                line.SetPosition(i, choose[i].gameObject.transform.position);
-            }
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            if (choose.Count >= 5)
-            {
-                MakeChanceBullet(choose.Count);
-            }
-
-            // Get Damage
-            if (choose.Count >= 2)
-            {
-                gainedDamage += choose.Count;
-                foreach (GameObject bullets in choose)
-                {
-                    Destroy(bullets);
-                }
-                BulletMaker.GetComponent<BulletMaker>().MakeBullet(choose.Count);
-            }
-            foreach (GameObject bullets in choose)
-            {
-                bullets.GetComponent<Bullet>().choosed = false;
-            }
-            choose.Clear();
-            line.positionCount = 0;
-            StageManager.GetComponent<StageManager>().UpdateData();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ShakeStage();
-        }
-
-        if(transform.position.y <= 0)
-        {
-            GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-            GetComponent<Transform>().position = Vector3.zero;
-            Shaking = false;
-        }
+        TouchUpdate();
     }
 
     public void MakeChanceBullet(int BulletCount)
@@ -193,4 +108,194 @@ public class Stage : MonoBehaviour
         rigid.velocity = Vector2.down * 3;
     }
 
+    void MouseUpdate()
+    {
+        LineRenderer line = this.GetComponent<LineRenderer>();
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+            if (hit.collider != null)
+            {
+                if (hit.collider.gameObject.GetComponent<Bullet>())
+                {
+                    Bullet bullet = hit.collider.gameObject.GetComponent<Bullet>();
+                    start = bullet.type;
+                    bullet.choosed = true;
+                    choose.Add(bullet.gameObject);
+                    line.positionCount = 1;
+                }
+                else if (hit.collider.gameObject.GetComponent<ChanceBullet>())
+                {
+                    hit.collider.GetComponent<ChanceBullet>().whenDestroy();
+                    hit.collider.GetComponent<ChanceBullet>().AddDMG();
+                    //int destroyCount = hit.collider.GetComponent<ChanceBullet>().DMG;
+                    //BulletMaker.GetComponent<BulletMaker>().MakeBullet(destroyCount);
+                    hit.collider.GetComponent<ChanceBullet>().DestroyThis();
+                    Destroy(hit.collider.gameObject);
+                }
+            }
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+            if (hit.collider != null)
+            {
+                if (hit.collider.gameObject.GetComponent<Bullet>().type == start &&
+                    !hit.collider.gameObject.GetComponent<Bullet>().choosed &&
+                    choose[choose.Count - 1].GetComponent<Bullet>().connectedBullet.Contains(hit.collider.gameObject))
+                {
+                    Bullet bullet = hit.collider.gameObject.GetComponent<Bullet>();
+                    bullet.choosed = true;
+                    choose.Add(bullet.gameObject);
+                    line.positionCount++;
+                }
+            }
+
+            for (int i = 0; i < choose.Count; i++)
+            {
+                line.SetPosition(i, choose[i].gameObject.transform.position);
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (choose.Count >= 5)
+            {
+                MakeChanceBullet(choose.Count);
+            }
+
+            // Get Damage
+            if (choose.Count >= 2)
+            {
+                gainedDamage += choose.Count;
+                foreach (GameObject bullets in choose)
+                {
+                    Destroy(bullets);
+                }
+                BulletMaker.GetComponent<BulletMaker>().MakeBullet(choose.Count);
+            }
+            foreach (GameObject bullets in choose)
+            {
+                bullets.GetComponent<Bullet>().choosed = false;
+            }
+            choose.Clear();
+            line.positionCount = 0;
+            StageManager.GetComponent<StageManager>().UpdateData();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ShakeStage();
+        }
+
+        if (transform.position.y <= 0)
+        {
+            GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+            GetComponent<Transform>().position = Vector3.zero;
+            Shaking = false;
+        }
+    }
+    void TouchUpdate()
+    {
+        LineRenderer line = this.GetComponent<LineRenderer>();
+        if (Input.touchCount > 0)   // 터치가 1개 이상 감지되었을 때
+        {
+            Touch touch = Input.GetTouch(0);    // 가장 먼저 누른 손가락
+            Ray ray = Camera.main.ScreenPointToRay(touch.position);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+            if(touch.phase == TouchPhase.Began) // 터치가 시작되었을 때
+            {
+                if (hit.collider != null)
+                {
+                    if (hit.collider.gameObject.GetComponent<Bullet>())
+                    {
+                        Bullet bullet = hit.collider.gameObject.GetComponent<Bullet>();
+                        start = bullet.type;
+                        bullet.choosed = true;
+                        choose.Add(bullet.gameObject);
+                        line.positionCount = 1;
+                    }
+                    else if (hit.collider.gameObject.GetComponent<ChanceBullet>())
+                    {
+                        hit.collider.GetComponent<ChanceBullet>().whenDestroy();
+                        hit.collider.GetComponent<ChanceBullet>().AddDMG();
+                        //int destroyCount = hit.collider.GetComponent<ChanceBullet>().DMG;
+                        //BulletMaker.GetComponent<BulletMaker>().MakeBullet(destroyCount);
+                        hit.collider.GetComponent<ChanceBullet>().DestroyThis();
+                        Destroy(hit.collider.gameObject);
+                    }
+                }
+            }
+
+            if(touch.phase == TouchPhase.Moved) // 터치된 상태로 드래그
+            {
+                if (hit.collider != null)
+                {
+                    if (hit.collider.gameObject.GetComponent<Bullet>().type == start &&
+                        !hit.collider.gameObject.GetComponent<Bullet>().choosed &&
+                        choose[choose.Count - 1].GetComponent<Bullet>().connectedBullet.Contains(hit.collider.gameObject))
+                    {
+                        Bullet bullet = hit.collider.gameObject.GetComponent<Bullet>();
+                        bullet.choosed = true;
+                        choose.Add(bullet.gameObject);
+                        line.positionCount++;
+                    }
+                }
+
+                for (int i = 0; i < choose.Count; i++)
+                {
+                    line.SetPosition(i, choose[i].gameObject.transform.position);
+                }
+            }
+
+            if(touch.phase == TouchPhase.Ended) // 터치가 끝났을 때
+            {
+                if (choose.Count >= 5)
+                {
+                    MakeChanceBullet(choose.Count);
+                }
+
+                // Get Damage
+                if (choose.Count >= 2)
+                {
+                    gainedDamage += choose.Count;
+                    foreach (GameObject bullets in choose)
+                    {
+                        Destroy(bullets);
+                    }
+                    BulletMaker.GetComponent<BulletMaker>().MakeBullet(choose.Count);
+                }
+                foreach (GameObject bullets in choose)
+                {
+                    bullets.GetComponent<Bullet>().choosed = false;
+                }
+                choose.Clear();
+                line.positionCount = 0;
+                StageManager.GetComponent<StageManager>().UpdateData();
+            }
+        }
+
+        isShaked();
+
+        if (transform.position.y <= 0)
+        {
+            GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+            GetComponent<Transform>().position = Vector3.zero;
+            Shaking = false;
+        }
+    }
+
+    void isShaked()
+    {
+        accelerationDir = Input.acceleration;
+
+        if (accelerationDir.sqrMagnitude >= Sensitivity && Shaking == false)
+        {
+            ShakeStage();
+        }
+    }
 }
