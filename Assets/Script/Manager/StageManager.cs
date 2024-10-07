@@ -12,6 +12,7 @@ public class StageManager : MonoBehaviour
     public GameObject EnemyRatio;
     public GameObject PlayerDMG;
     public GameObject EnemyDMG;
+    public GameObject GoBackWindow; // 뒤로가기 창
 
     public float PlayerPower;
     public float EnemyPower;
@@ -42,6 +43,10 @@ public class StageManager : MonoBehaviour
         if (state == State.InGame)
         {
             Timer();
+        }
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            GoBackWindow.SetActive(true);
         }
     }
 

@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     public void GameStart()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(3);
     }
 
     public void Clear()
@@ -41,5 +41,10 @@ public class GameManager : MonoBehaviour
     public void Option()
     {
         SceneManager.LoadScene(1);
+    }
+
+    public void GoHome()
+    {
+        SceneManager.LoadScene(0);
     }
 }
