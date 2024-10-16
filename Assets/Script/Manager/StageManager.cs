@@ -13,6 +13,7 @@ public class StageManager : MonoBehaviour
     public GameObject PlayerDMG;
     public GameObject EnemyDMG;
     public GameObject GoBackWindow; // 뒤로가기 창
+    public GameObject EnemyController;
 
     public float PlayerPower;
     public float EnemyPower;
@@ -30,12 +31,28 @@ public class StageManager : MonoBehaviour
     // 비율 : Player / Player + Enemy
     // Start is called before the first frame update
 
+    public float ABT;
+    public int ABP;
+    public int LL;
+    public int UCP;
+    public float DPR;
+
+    int CountRound;
+    int AllDMG;
     void Awake()
     {
         state = State.InGame;
         tmpTime = LeftTime;
         firstSizePlayer = PlayerRatio.GetComponent<RectTransform>().sizeDelta;
         firstSizeEnemy = EnemyRatio.GetComponent<RectTransform>().sizeDelta;
+        Time.timeScale = 1;
+
+        ABT = 0;
+        ABP = 0;
+        LL = 0;
+        UCP = 0;
+        DPR = 0;
+        CountRound = 0;
     }
 
     private void Update()
@@ -44,10 +61,7 @@ public class StageManager : MonoBehaviour
         {
             Timer();
         }
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            GoBackWindow.SetActive(true);
-        }
+        UpdateData();
     }
 
     public void UpdateData()
@@ -95,6 +109,31 @@ public class StageManager : MonoBehaviour
         EnemyDMG.GetComponent<TextMeshProUGUI>().text = EnemyPower.ToString();
     }
 
+    public int GetABP()
+    {
+        return Stage.GetComponent<Stage>().ABP;
+    }
+
+    public int GetLL()
+    {
+        return Stage.GetComponent<Stage>().LL;
+    }
+
+    public int GetUCP()
+    {
+        return Stage.GetComponent<Stage>().UCP;
+    }
+
+    private void GetAllDmg()
+    {
+        AllDMG += Stage.GetComponent<Stage>().gainedDamage;
+    }
+
+    public float GetDPR()
+    {
+        return AllDMG / CountRound;
+    }
+
     private void Timer()
     {
         if (LeftTime > 0)
@@ -105,6 +144,8 @@ public class StageManager : MonoBehaviour
         }
         else
         {
+            GetAllDmg();
+            EnemyPower = EnemyController.GetComponent<EnemyManager>().EnemyPower;
             // Attack
             float dmg = PlayerPower - EnemyPower;
             HealthManager.GetComponent<HealthManager>().Attack(dmg);
@@ -112,7 +153,19 @@ public class StageManager : MonoBehaviour
             Stage.GetComponent<Stage>().gainedDamage = 0;
             PlayerPower = 0;
             EnemyPower = 0;
+            EnemyController.GetComponent<EnemyManager>().clearPower();
+            CountRound++;
             UpdateData();
+        }
+
+        ABT += Time.deltaTime;
+    }
+
+    public void pause()
+    {
+        if (!GoBackWindow.activeSelf)
+        {
+            GoBackWindow.SetActive(true);
         }
     }
 

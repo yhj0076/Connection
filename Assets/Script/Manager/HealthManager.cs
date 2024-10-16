@@ -15,12 +15,17 @@ public class HealthManager : MonoBehaviour
 
     private Vector2 PlayerFullGage;
     private Vector2 EnemyFullGage;
+    GameObject StageManager;
+    GameObject Stage;
     private void Start()
     {
         PlayerFullHP = PlayerHealth;
         EnemyFullHP = EnemyHealth;
         PlayerFullGage = new Vector2(PlayerHP.GetComponent<RectTransform>().sizeDelta.x, PlayerHP.GetComponent<RectTransform>().sizeDelta.y);
         EnemyFullGage = new Vector2(EnemyHP.GetComponent<RectTransform>().sizeDelta.x, EnemyHP.GetComponent<RectTransform>().sizeDelta.y);
+
+        StageManager = GameObject.Find("StageManager");
+        Stage = GameObject.Find("Stage");
     }
 
     public void Attack(float dmg)
@@ -35,6 +40,7 @@ public class HealthManager : MonoBehaviour
             }
             else
             {
+                RefreshClearStat();
                 Vector2 DMG = new Vector2(0, 1);
                 EnemyHP.GetComponent<RectTransform>().sizeDelta = EnemyFullGage * DMG;
                 GameObject gameManager = FindObjectOfType<GameManager>().gameObject;
@@ -43,7 +49,7 @@ public class HealthManager : MonoBehaviour
         }
         else if(dmg < 0)
         {
-            PlayerHealth -= dmg;
+            PlayerHealth += dmg;
             if (PlayerHealth > 0)
             {
                 Vector2 DMG = new Vector2(PlayerHealth / PlayerFullHP, 1);
@@ -51,11 +57,21 @@ public class HealthManager : MonoBehaviour
             }
             else
             {
+                RefreshClearStat();
                 Vector2 DMG = new Vector2(0, 1);
                 PlayerHP.GetComponent<RectTransform>().sizeDelta = PlayerFullGage * DMG;
                 GameObject gameManager = FindObjectOfType<GameManager>().gameObject;
-                //gameManager.GetComponent<GameManager>().Die();
+                gameManager.GetComponent<GameManager>().Die();
             }
         }
+    }
+
+    void RefreshClearStat()
+    {
+        SecurityPlayerPrefs.SetFloat("ABT", StageManager.GetComponent<StageManager>().ABT);
+        SecurityPlayerPrefs.SetInt("ABP", StageManager.GetComponent<StageManager>().GetABP());
+        SecurityPlayerPrefs.SetInt("LL", StageManager.GetComponent<StageManager>().GetLL());
+        SecurityPlayerPrefs.SetInt("UCP", StageManager.GetComponent<StageManager>().GetUCP());
+        SecurityPlayerPrefs.SetFloat("DPR", StageManager.GetComponent<StageManager>().GetDPR());
     }
 }

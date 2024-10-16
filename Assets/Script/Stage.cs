@@ -8,7 +8,9 @@ public class Stage : MonoBehaviour
     Vector3 accelerationDir;
     public float Sensitivity;
 
+    public GameObject GoBackWindow;
     public GameObject StageManager;
+    public GameObject GameManager;  
     public GameObject BulletMaker;
     public int MaxBullet;
     public int connection = 0;
@@ -20,11 +22,16 @@ public class Stage : MonoBehaviour
     public GameObject explode;
     public GameObject[] same;
     public GameObject BigBang;
+
+    public int ABP;
+    public int LL;
+    public int UCP;
     // Start is called before the first frame update
     void Start()
     {
         StageManager.GetComponent<StageManager>().UpdateData();
         BulletMaker.GetComponent<BulletMaker>().MakeBullet(MaxBullet);
+        ABP = 0;
     }
 
     // Update is called once per frame
@@ -227,6 +234,7 @@ public class Stage : MonoBehaviour
                         //BulletMaker.GetComponent<BulletMaker>().MakeBullet(destroyCount);
                         hit.collider.GetComponent<ChanceBullet>().DestroyThis();
                         Destroy(hit.collider.gameObject);
+                        UCP++;
                     }
                 }
             }
@@ -262,6 +270,12 @@ public class Stage : MonoBehaviour
                 // Get Damage
                 if (choose.Count >= 2)
                 {
+                    if (LL < choose.Count)
+                    {
+                        LL = choose.Count;
+                    }
+
+
                     gainedDamage += choose.Count;
                     foreach (GameObject bullets in choose)
                     {
@@ -273,6 +287,7 @@ public class Stage : MonoBehaviour
                 {
                     bullets.GetComponent<Bullet>().choosed = false;
                 }
+                ABP += choose.Count;
                 choose.Clear();
                 line.positionCount = 0;
                 StageManager.GetComponent<StageManager>().UpdateData();
@@ -297,5 +312,23 @@ public class Stage : MonoBehaviour
         {
             ShakeStage();
         }
+    }
+
+    public void WannaGoBack()
+    {
+        GoBackWindow.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void CloseGoBackWindow()
+    {
+        GoBackWindow.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    public void WannaGoHome()
+    {
+        Time.timeScale = 1;
+        GameManager.GetComponent<GameManager>().GoHome();
     }
 }
