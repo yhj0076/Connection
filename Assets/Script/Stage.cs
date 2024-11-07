@@ -5,55 +5,61 @@ using UnityEngine;
 
 public class Stage : MonoBehaviour
 {
-    Vector3 accelerationDir;
-    public float Sensitivity;
+    Vector3 accelerationDir;    // 가속도 계산을 위한 좌표
+    public float Sensitivity;   // 흔들기 민감도
 
-    public GameObject GoBackWindow;
-    public GameObject StageManager;
-    public GameObject GameManager;  
-    public GameObject BulletMaker;
-    public int MaxBullet;
-    public int connection = 0;
-    public Bullet.BulletType start;
-    public List<GameObject> choose = new();
-    public int gainedDamage = 0;
-    public bool Shaking = false;
+    public GameObject GoBackWindow;     // 뒤로가기 창
+    public GameObject StageManager;     // StageManager
+    public GameObject GameManager;      // GameManeger
+    public GameObject BulletMaker;      // 포센 제조기
+    public int MaxBullet;               // 최대 포션 개수
+    public int connection = 0;          // 연결 수
+    public Bullet.BulletType start;     // 시작 포션 색
+    public List<GameObject> choose = new();     // 선택된 포션
+    public int gainedDamage = 0;    // 모인 데미지
+    public bool Shaking = false;    // 흔들렸는지 판단
 
-    public GameObject explode;
-    public GameObject[] same;
-    public GameObject BigBang;
+    public GameObject explode;      // 폭탄
+    public GameObject[] same;       // 같은색 특수 포션
+    public GameObject BigBang;      // 전부 삭제하는 포션
 
-    public int ABP;
-    public int LL;
-    public int UCP;
-    // Start is called before the first frame update
-    void Start()
+    public int ABP;     // All Breaked Potion : 총 부순 포션 수
+    public int LL;      // Longest Link : 가장 긴 링크
+    public int UCP;     // Used Chance Potion : 사용한 특수 포션
+
+    private void Awake()
     {
-        StageManager.GetComponent<StageManager>().UpdateData();
-        BulletMaker.GetComponent<BulletMaker>().MakeBullet(MaxBullet);
-        ABP = 0;
+        Sensitivity = SecurityPlayerPrefs.GetFloat("sensitive", 5);
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        StageManager.GetComponent<StageManager>().UpdateData();     // 데미지 수치 초기화 업데이트
+        BulletMaker.GetComponent<BulletMaker>().MakeBullet(MaxBullet);      // 최대 포션 개수만큼 초기 포션 생성
+        ABP = 0;       // 초기 부순 포션 초기화
+    }
+
     void Update()
     {
         TouchUpdate();
     }
 
+    // 특수 포션을 만드는 메서드
     public void MakeChanceBullet(int BulletCount)
     {
-        int midValue = (int)choose.Count / 2;
-        Vector3 midVector = choose[midValue].gameObject.transform.position;
-        Debug.Log("MakingBullet Mid : " + midVector);
-        if (BulletCount >= 10)
+        int midValue = (int)choose.Count / 2;   // 선택된 포션 중 가운데 포션 탐색
+        Vector3 midVector = choose[midValue].gameObject.transform.position; // 가운데 포션의 좌표값 저장
+        Debug.Log("MakingBullet Mid : " + midVector);   // 가운데 포션의 좌표값 생성
+
+        if (BulletCount >= 10)  // 파괴된 포션이 10개 이상일 때
         {
             GameObject No3Bomb = Instantiate(BigBang);
             No3Bomb.transform.position = midVector;
             No3Bomb.transform.parent = BulletMaker.transform;
             return;
-            // Destroy All Bullet.
+            // 모든 포션을 없애는 특수 포션 생성
         }
-        if (BulletCount >= 7)
+        if (BulletCount >= 7) // 파괴된 포션이 7개 이상일 때
         {
             GameObject No2Bomb = null;
             if (choose[0].gameObject.GetComponent<Bullet>().type == Bullet.BulletType.Red)
@@ -80,7 +86,7 @@ public class Stage : MonoBehaviour
             No2Bomb.transform.position = midVector;
             No2Bomb.transform.parent = BulletMaker.transform;
             return;
-            // Destroy All same Bullet.
+            // 각 색깔에 맞는 포션 생성
         }
         if (BulletCount >= 5)
         {
@@ -88,17 +94,18 @@ public class Stage : MonoBehaviour
             No1Bomb.transform.position = midVector;
             No1Bomb.transform.parent = BulletMaker.transform;
             return;
-            // Explode connected Bullet.
+            // 주변 포션을 파괴하는 폭탄 생성
         }
     }
 
+    // 상자를 흔드는 메서드
     public void ShakeStage()
     {
         if (!Shaking)
         {
             Shaking = true;
-            Vup();
-            Invoke("Vdown", 0.1f);
+            Vup();  // 상자를 위로 움직이게 하는 메서드
+            Invoke("Vdown", 0.1f);  // 0.1초 후 상자를 내려오게 하는 메서드 실행
         }
     }
 
@@ -218,7 +225,7 @@ public class Stage : MonoBehaviour
             {
                 if (hit.collider != null)
                 {
-                    if (hit.collider.gameObject.GetComponent<Bullet>())
+                    if (hit.collider.gameObject.GetComponent<Bullet>()) // 터치된 것이 일반 포션일 때
                     {
                         Bullet bullet = hit.collider.gameObject.GetComponent<Bullet>();
                         start = bullet.type;
@@ -226,12 +233,10 @@ public class Stage : MonoBehaviour
                         choose.Add(bullet.gameObject);
                         line.positionCount = 1;
                     }
-                    else if (hit.collider.gameObject.GetComponent<ChanceBullet>())
+                    else if (hit.collider.gameObject.GetComponent<ChanceBullet>())  // 터치된 것이 특수 포션일 때
                     {
                         hit.collider.GetComponent<ChanceBullet>().whenDestroy();
                         hit.collider.GetComponent<ChanceBullet>().AddDMG();
-                        //int destroyCount = hit.collider.GetComponent<ChanceBullet>().DMG;
-                        //BulletMaker.GetComponent<BulletMaker>().MakeBullet(destroyCount);
                         hit.collider.GetComponent<ChanceBullet>().DestroyThis();
                         Destroy(hit.collider.gameObject);
                         UCP++;
@@ -245,7 +250,7 @@ public class Stage : MonoBehaviour
                 {
                     if (hit.collider.gameObject.GetComponent<Bullet>().type == start &&
                         !hit.collider.gameObject.GetComponent<Bullet>().choosed &&
-                        choose[choose.Count - 1].GetComponent<Bullet>().connectedBullet.Contains(hit.collider.gameObject))
+                        choose[choose.Count - 1].GetComponent<Bullet>().connectedBullet.Contains(hit.collider.gameObject))  // 일반 포션이면서 같은 색 포션일 때
                     {
                         Bullet bullet = hit.collider.gameObject.GetComponent<Bullet>();
                         bullet.choosed = true;
@@ -262,12 +267,12 @@ public class Stage : MonoBehaviour
 
             if(touch.phase == TouchPhase.Ended) // 터치가 끝났을 때
             {
-                if (choose.Count >= 5)
+                if (choose.Count >= 5)  // 5개 이상 선택 시 특수 포션 생성
                 {
                     MakeChanceBullet(choose.Count);
                 }
 
-                // Get Damage
+                // 데미지 계산
                 if (choose.Count >= 2)
                 {
                     if (LL < choose.Count)
@@ -295,13 +300,6 @@ public class Stage : MonoBehaviour
         }
 
         isShaked();
-
-        if (transform.position.y <= 0)
-        {
-            GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-            GetComponent<Transform>().position = Vector3.zero;
-            Shaking = false;
-        }
     }
 
     void isShaked()
@@ -311,6 +309,13 @@ public class Stage : MonoBehaviour
         if (accelerationDir.sqrMagnitude >= Sensitivity && Shaking == false)
         {
             ShakeStage();
+        }
+
+        if (transform.position.y <= 0)
+        {
+            GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+            GetComponent<Transform>().position = Vector3.zero;
+            Shaking = false;
         }
     }
 

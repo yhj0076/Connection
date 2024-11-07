@@ -17,6 +17,9 @@ public class HealthManager : MonoBehaviour
     private Vector2 EnemyFullGage;
     GameObject StageManager;
     GameObject Stage;
+
+    GameObject Player;
+    GameObject Enemy;
     private void Start()
     {
         PlayerFullHP = PlayerHealth;
@@ -26,6 +29,7 @@ public class HealthManager : MonoBehaviour
 
         StageManager = GameObject.Find("StageManager");
         Stage = GameObject.Find("Stage");
+        Player = GameObject.Find("Player");
     }
 
     public void Attack(float dmg)
@@ -35,11 +39,13 @@ public class HealthManager : MonoBehaviour
             EnemyHealth -= dmg;
             if (EnemyHealth > 0)
             {
+                Player.GetComponent<PlayerAnimation>().toAttack();  // 공격 애니메이션
                 Vector2 DMG = new Vector2(EnemyHealth / EnemyFullHP, 1);
                 EnemyHP.GetComponent<RectTransform>().sizeDelta = EnemyFullGage * DMG;
             }
             else
             {
+
                 RefreshClearStat();
                 Vector2 DMG = new Vector2(0, 1);
                 EnemyHP.GetComponent<RectTransform>().sizeDelta = EnemyFullGage * DMG;
@@ -52,11 +58,13 @@ public class HealthManager : MonoBehaviour
             PlayerHealth += dmg;
             if (PlayerHealth > 0)
             {
+                Player.GetComponent<PlayerAnimation>().toDamage();  // 피격 애니메이션
                 Vector2 DMG = new Vector2(PlayerHealth / PlayerFullHP, 1);
                 PlayerHP.GetComponent<RectTransform>().sizeDelta = PlayerFullGage * DMG;
             }
             else
             {
+                Player.GetComponent<PlayerAnimation>().toDeath();  // 사망 애니메이션
                 RefreshClearStat();
                 Vector2 DMG = new Vector2(0, 1);
                 PlayerHP.GetComponent<RectTransform>().sizeDelta = PlayerFullGage * DMG;

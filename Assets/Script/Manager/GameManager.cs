@@ -48,6 +48,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void whenStart()
+    {
+        if (SecurityPlayerPrefs.GetInt("difficulty", -1) == -1)
+        {
+            Story();
+        }
+        else
+        {
+            NowStage();
+        }
+    }
+
     public void Story()
     {
         SceneManager.LoadScene(6);

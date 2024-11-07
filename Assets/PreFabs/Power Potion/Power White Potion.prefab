@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 2841712792253650477}
   - component: {fileID: 1046561234113812774}
   - component: {fileID: 7565076391133601787}
-  - component: {fileID: 5154008439840265592}
   m_Layer: 0
   m_Name: Power White Potion
   m_TagString: Bullet
@@ -78,8 +77,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300032, guid: ddf8838d0a06d8d4c9dec9e3bed69260, type: 3}
+  m_SortingOrder: 90
+  m_Sprite: {fileID: 1309860457, guid: 57ecafba5dd4da4479dc4e5e3881c8c9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -106,6 +105,7 @@ MonoBehaviour:
   sameType: 4
   destroyList: []
   BulletMaker: {fileID: 0}
+  DMG: 0
 --- !u!58 &1649151861207289913
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -113,7 +113,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3169647718460276875}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -138,9 +138,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.09, y: -0.09}
   serializedVersion: 2
-  m_Radius: 0.41
+  m_Radius: 0.4
 --- !u!50 &2841712792253650477
 Rigidbody2D:
   serializedVersion: 4
@@ -200,7 +200,7 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.21875}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.7
 --- !u!60 &7565076391133601787
@@ -238,8 +238,8 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.30555555}
-    oldSize: {x: 0.8125, y: 1.125}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -247,33 +247,8 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.15625, y: 0.78125}
-      - {x: -0.40625, y: 0.15625}
-      - {x: -0.40625, y: -0.15625}
-      - {x: -0.21875, y: -0.34375}
-      - {x: 0.15625, y: -0.34375}
-      - {x: 0.34375, y: -0.15625}
-      - {x: 0.40625, y: 0.46875}
-      - {x: 0.09375, y: 0.78125}
+    - - {x: 0.0625, y: 0.375}
+      - {x: 0.375, y: 0.0625}
+      - {x: 0.5, y: 0.3125}
+      - {x: 0.3125, y: 0.5}
   m_UseDelaunayMesh: 0
---- !u!95 &5154008439840265592
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3169647718460276875}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b118a55255a9c1d4ca627102d4955d3f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
