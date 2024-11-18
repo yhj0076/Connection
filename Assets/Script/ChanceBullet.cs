@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class ChanceBullet : MonoBehaviour
 {
+    GameObject SFX;
     public ChanceType type;
     public BulletType sameType;
     bool bomb;
@@ -16,6 +17,7 @@ public class ChanceBullet : MonoBehaviour
     private void Start()
     {
         BulletMaker = this.transform.parent.gameObject;
+        SFX = GameObject.Find("SFX");
     }
 
     public void AddDMG()
@@ -55,6 +57,7 @@ public class ChanceBullet : MonoBehaviour
     {
         if (type == ChanceType.Explode)
         {
+            SFX.GetComponent<SfxController>().PlaySFX(1);
             int destroyCount = destroyList.Count;
             DMG = destroyCount;
             Debug.Log("Bomb!!");
@@ -65,6 +68,7 @@ public class ChanceBullet : MonoBehaviour
         }
         else if (type == ChanceType.Same)
         {
+            SFX.GetComponent<SfxController>().PlaySFX(3);
             if (sameType == BulletType.Red)
             {
                 DestroySameBullets(0);
@@ -91,6 +95,7 @@ public class ChanceBullet : MonoBehaviour
         }
         else if (type == ChanceType.BigBang)
         {
+            SFX.GetComponent<SfxController>().PlaySFX(2);
             // claer all bullets
             DestroyAllBullets();
         }

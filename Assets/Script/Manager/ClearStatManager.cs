@@ -39,10 +39,10 @@ public class ClearStatManager : MonoBehaviour
         SecurityPlayerPrefs.SetInt("UCP", 0);
         SecurityPlayerPrefs.SetFloat("DPR", 0);
 
-        ABT_text.GetComponent<TextMeshProUGUI>().text = "총 경합 시간 : " + ABT*100/100;
+        ABT_text.GetComponent<TextMeshProUGUI>().text = "총 플레이 시간 : " + (int)ABT;
         ABP_text.GetComponent<TextMeshProUGUI>().text = "총 파괴된 포션 : " + ABP;
         LL_text.GetComponent<TextMeshProUGUI>().text = "가장 긴 링크 : " + LL;
         UCP_text.GetComponent<TextMeshProUGUI>().text = "사용한 특수포션 : " + UCP;
-        DPR_text.GetComponent<TextMeshProUGUI>().text = "평균 데미지 : " + DPR;
+        DPR_text.GetComponent<TextMeshProUGUI>().text = "평균 데미지 : " + ((int)DPR*100)/100;
     }
 }

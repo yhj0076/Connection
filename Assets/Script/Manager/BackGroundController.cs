@@ -11,7 +11,7 @@ public class BackGroundController : MonoBehaviour
     {
         int difficulty = SecurityPlayerPrefs.GetInt("difficulty", 0);
 
-        if(difficulty < 3)
+        if(difficulty < 2)
         {
             Grass.SetActive(true);
             Castle.SetActive(false);

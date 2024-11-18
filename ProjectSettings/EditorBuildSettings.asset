@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/9_EndingCredit.unity
     guid: e39d9eaf0568bc74bb2943e8805219a5
   - enabled: 1
+    path: Assets/Scenes/6_StroyScene.unity
+    guid: 6e3dede798eb5ab43bfc009d21572dba
+  - enabled: 1
     path: Assets/Scenes/4_FailedScene.unity
     guid: 4b2f5bb362acc25489128cb53cd23109
   m_configObjects: {}

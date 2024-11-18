@@ -7,7 +7,7 @@ using UnityEngine;
 public class TypingController : MonoBehaviour
 {
     TextMeshProUGUI story;
-
+    AudioSource AudioSource;
     string StoryLine;
 
     float timeSlow = 0.1f;
@@ -22,6 +22,7 @@ public class TypingController : MonoBehaviour
     public GameObject nextButton;
     private void Awake()
     {
+        AudioSource = GetComponent<AudioSource>();
         story = GetComponent<TextMeshProUGUI>();
         StoryLine = story.text;
         fullTime = timeSlow;
@@ -55,6 +56,10 @@ public class TypingController : MonoBehaviour
         else if(index < StoryLine.Length)
         {
             story.text += StoryLine[index];
+            if (StoryLine[index] != ' ')
+            {
+                AudioSource.Play();
+            }
             index++;
             nowTime = 0;
         }

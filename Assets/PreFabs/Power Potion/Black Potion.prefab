@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 407340784933033567}
   - component: {fileID: 1282786640011783145}
   - component: {fileID: 4743505546046873945}
-  - component: {fileID: 3586126041427783537}
   m_Layer: 0
   m_Name: Black Potion
   m_TagString: Bullet
@@ -217,24 +216,3 @@ PolygonCollider2D:
       - {x: 0.5, y: 0.3125}
       - {x: 0.3125, y: 0.5}
   m_UseDelaunayMesh: 0
---- !u!95 &3586126041427783537
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6911133935088845235}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f430beec560280c4da879d039fd0421e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0

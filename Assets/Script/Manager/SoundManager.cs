@@ -3,13 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
+    public static SoundManager instance;
     public AudioMixer masterMixer;
     public Slider BgmSlider;
     public Slider SfxSlider;
     public bool play;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Debug.LogError("씬에 2개 이상의 사운드 매니저가 존재합니다.");
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {

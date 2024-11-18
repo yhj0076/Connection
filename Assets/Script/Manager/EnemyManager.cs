@@ -62,9 +62,9 @@ public class EnemyManager : MonoBehaviour
                 break;
 
             case 5:
-                thinkTime = 2;
+                thinkTime = 2f;
                 maxLink = 10;
-                minLink = 4;
+                minLink = 3;
                 canUseChance = true;
                 break;
 

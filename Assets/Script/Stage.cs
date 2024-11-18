@@ -8,6 +8,8 @@ public class Stage : MonoBehaviour
     Vector3 accelerationDir;    // 가속도 계산을 위한 좌표
     public float Sensitivity;   // 흔들기 민감도
 
+    public GameObject SFX;
+    public GameObject charge;
     public GameObject GoBackWindow;     // 뒤로가기 창
     public GameObject StageManager;     // StageManager
     public GameObject GameManager;      // GameManeger
@@ -103,6 +105,7 @@ public class Stage : MonoBehaviour
     {
         if (!Shaking)
         {
+            SFX.GetComponent<SfxController>().PlaySFX(4);
             Shaking = true;
             Vup();  // 상자를 위로 움직이게 하는 메서드
             Invoke("Vdown", 0.1f);  // 0.1초 후 상자를 내려오게 하는 메서드 실행
@@ -256,6 +259,7 @@ public class Stage : MonoBehaviour
                         bullet.choosed = true;
                         choose.Add(bullet.gameObject);
                         line.positionCount++;
+                        SFX.GetComponent<SfxController>().PlaySFX(0);
                     }
                 }
 
@@ -287,6 +291,7 @@ public class Stage : MonoBehaviour
                         Destroy(bullets);
                     }
                     BulletMaker.GetComponent<BulletMaker>().MakeBullet(choose.Count);
+                    charge.GetComponent<EnergeCharge>().charge();
                 }
                 foreach (GameObject bullets in choose)
                 {
