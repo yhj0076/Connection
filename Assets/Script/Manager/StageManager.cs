@@ -66,7 +66,19 @@ public class StageManager : MonoBehaviour
 
     public void UpdateData()
     {
-        PlayerPower = Stage.GetComponent<Stage>().gainedDamage;
+        Stage stageComponent = Stage.GetComponent<Stage>();
+        Stage practiceComponent = Stage.GetComponent<PracticeStage>();
+        if (stageComponent != null)
+        {
+            PlayerPower = Stage.GetComponent<Stage>().gainedDamage;
+        }
+        else if (practiceComponent != null)
+        {
+            PlayerPower = Stage.GetComponent <PracticeStage>().gainedDamage;
+        }
+
+
+
         if (PlayerPower == 0)
         {
             LeftRatio = 0.5f;

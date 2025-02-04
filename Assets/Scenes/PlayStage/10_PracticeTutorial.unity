@@ -2454,6 +2454,7 @@ GameObject:
   m_Component:
   - component: {fileID: 606642721}
   - component: {fileID: 606642720}
+  - component: {fileID: 606642723}
   - component: {fileID: 606642719}
   - component: {fileID: 606642722}
   m_Layer: 5
@@ -2574,7 +2575,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 606642718}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f60ecb14d7955e245a95c34175664252, type: 3}
   m_Name: 
@@ -2592,6 +2593,7 @@ MonoBehaviour:
   choose: []
   gainedDamage: 0
   Shaking: 0
+  Damaged: 0
   explode: {fileID: 4572421707217969698, guid: 4a421997f81fa7f4da2c9558bc4bd01a, type: 3}
   same:
   - {fileID: 3169647718460276875, guid: b209350fed7148245aea94f8eecfdda4, type: 3}
@@ -2650,7 +2652,44 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 5
+  m_Constraints: 4
+--- !u!114 &606642723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606642718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54f5bcfb23e51244b8ad57df8ce968c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sensitivity: 0
+  SFX: {fileID: 1026476141}
+  charge: {fileID: 310032284}
+  GoBackWindow: {fileID: 2107304534}
+  StageManager: {fileID: 1121065438}
+  GameManager: {fileID: 1073919675}
+  BulletMaker: {fileID: 2134194934}
+  MaxBullet: 50
+  connection: 0
+  start: 0
+  choose: []
+  gainedDamage: 0
+  Shaking: 0
+  Damaged: 0
+  explode: {fileID: 4572421707217969698, guid: 4a421997f81fa7f4da2c9558bc4bd01a, type: 3}
+  same:
+  - {fileID: 3169647718460276875, guid: b209350fed7148245aea94f8eecfdda4, type: 3}
+  - {fileID: 3169647718460276875, guid: 52541f77f45bbc045a8a154e4536578b, type: 3}
+  - {fileID: 3169647718460276875, guid: 9e10f0d796e7b6b4e8e801d6bdd460a1, type: 3}
+  - {fileID: 3169647718460276875, guid: 93a3eeaefeea51b47a4087069cd91184, type: 3}
+  - {fileID: 3169647718460276875, guid: 15731a21ea4ee364ba375876373a9e45, type: 3}
+  BigBang: {fileID: 6911133935088845235, guid: fd6783f8b26344a45bc70491093a3c56, type: 3}
+  ABP: 0
+  LL: 0
+  UCP: 0
 --- !u!1 &652683556
 GameObject:
   m_ObjectHideFlags: 0
@@ -3042,7 +3081,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &727730352
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4717,6 +4756,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1121065440}
   - component: {fileID: 1121065441}
+  - component: {fileID: 1121065442}
   m_Layer: 0
   m_Name: StageManager
   m_TagString: Untagged
@@ -4746,9 +4786,40 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1121065438}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 052bebe188dd69b44aa94917703d80d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthManager: {fileID: 1308406890}
+  timeText: {fileID: 1153450457}
+  Stage: {fileID: 606642718}
+  PlayerRatio: {fileID: 982177001}
+  EnemyRatio: {fileID: 1913835682}
+  PlayerDMG: {fileID: 450061582}
+  EnemyDMG: {fileID: 455110470}
+  GoBackWindow: {fileID: 2107304534}
+  EnemyController: {fileID: 717326539}
+  PlayerPower: 0
+  EnemyPower: 0
+  LeftRatio: 0.5
+  RightRatio: 0.5
+  LeftTime: 15
+  ABT: 0
+  ABP: 0
+  LL: 0
+  UCP: 0
+  DPR: 0
+--- !u!114 &1121065442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1121065438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30ffca2dcd0cba2418ce07e040ccf898, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   HealthManager: {fileID: 1308406890}
@@ -4902,7 +4973,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 88
+  m_text: "\u221E"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c5cf910561032974abd3b7e047fa9450, type: 2}
   m_sharedMaterial: {fileID: 6052459116160927914, guid: c5cf910561032974abd3b7e047fa9450, type: 2}

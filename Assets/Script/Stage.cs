@@ -20,6 +20,7 @@ public class Stage : MonoBehaviour
     public List<GameObject> choose = new();     // 선택된 포션
     public int gainedDamage = 0;    // 모인 데미지
     public bool Shaking = false;    // 흔들렸는지 판단
+    public bool Damaged = false;            // 데미지를 입었는 지 판단
 
     public GameObject explode;      // 폭탄
     public GameObject[] same;       // 같은색 특수 포션
@@ -28,6 +29,7 @@ public class Stage : MonoBehaviour
     public int ABP;     // All Breaked Potion : 총 부순 포션 수
     public int LL;      // Longest Link : 가장 긴 링크
     public int UCP;     // Used Chance Potion : 사용한 특수 포션
+      
 
     private void Awake()
     {
@@ -101,7 +103,7 @@ public class Stage : MonoBehaviour
     }
 
     // 상자를 흔드는 메서드
-    public void ShakeStage()
+    public void ShakeVertical()
     {
         if (!Shaking)
         {
@@ -109,6 +111,16 @@ public class Stage : MonoBehaviour
             Shaking = true;
             Vup();  // 상자를 위로 움직이게 하는 메서드
             Invoke("Vdown", 0.1f);  // 0.1초 후 상자를 내려오게 하는 메서드 실행
+        }
+    }
+
+    public void ShakeHorizontal()
+    {
+        if (Damaged)
+        {
+            Shaking = true;
+            Vleft();    // 상자를 왼쪽으로 흔드는 메서드
+            Invoke("Vright", 0.1f);  // 0.1초 후 상자를 돌아오게 하는 메서드 실행
         }
     }
 
@@ -125,7 +137,20 @@ public class Stage : MonoBehaviour
         rigid.velocity = Vector2.down * 3;
     }
 
-    void MouseUpdate()
+    public void Vleft()
+    {
+        GetComponent<Transform>().position = new Vector3(-0.001f,0, 0);
+        Rigidbody2D rigidbody = GetComponent<Rigidbody2D>();
+        rigidbody.velocity = Vector2.left * 3;
+    }
+
+    public void Vright()
+    {
+        Rigidbody2D rigid = GetComponent<Rigidbody2D>();
+        rigid.velocity = Vector2.right * 3;
+    }
+
+    protected void MouseUpdate()
     {
         LineRenderer line = this.GetComponent<LineRenderer>();
         if (Input.GetMouseButtonDown(0))
@@ -206,7 +231,7 @@ public class Stage : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            ShakeStage();
+            ShakeVertical();
         }
 
         if (transform.position.y <= 0)
@@ -215,8 +240,8 @@ public class Stage : MonoBehaviour
             GetComponent<Transform>().position = Vector3.zero;
             Shaking = false;
         }
-    }
-    void TouchUpdate()
+    }   // 테스트용 마우스 조작 메서드
+    protected void TouchUpdate()
     {
         LineRenderer line = this.GetComponent<LineRenderer>();
         if (Input.touchCount > 0)   // 터치가 1개 이상 감지되었을 때
@@ -313,14 +338,21 @@ public class Stage : MonoBehaviour
 
         if (accelerationDir.sqrMagnitude >= Sensitivity && Shaking == false)
         {
-            ShakeStage();
+            ShakeVertical();
         }
+        // TODO : 좌우 흔들릴 때 부들부들 떨리는 버그 발견
+        //if (Damaged)
+        //{
+        //    ShakeHorizontal();
+        //}
 
-        if (transform.position.y <= 0)
+
+        if (transform.position.y <= 0 && transform.position.x >= 0)
         {
             GetComponent<Rigidbody2D>().velocity = Vector3.zero;
             GetComponent<Transform>().position = Vector3.zero;
             Shaking = false;
+            Damaged = false;
         }
     }
 

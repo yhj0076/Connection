@@ -17,7 +17,10 @@ public class Bullet : MonoBehaviour
         if (!connectedBullet.Contains(collision.gameObject))
         {
             connectedBullet.Add(collision.gameObject);
-            collision.gameObject.GetComponent<Bullet>().connectedBullet.Add(gameObject);
+            if (collision.gameObject.tag == "Bullet")
+            {
+                collision.gameObject.GetComponent<Bullet>().connectedBullet.Add(gameObject);
+            }
         }
     }
 

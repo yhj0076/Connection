@@ -66,6 +66,7 @@ public class HealthManager : MonoBehaviour
                 Player.GetComponent<PlayerAnimation>().toDamage();  // 피격 애니메이션
                 Vector2 DMG = new Vector2(PlayerHealth / PlayerFullHP, 1);
                 PlayerHP.GetComponent<RectTransform>().sizeDelta = PlayerFullGage * DMG;
+                Stage.GetComponent<Stage>().Damaged = true;
             }
             else
             {
