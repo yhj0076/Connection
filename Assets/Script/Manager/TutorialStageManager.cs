@@ -13,6 +13,6 @@ public class TutorialStageManager : StageManager
     // Update is called once per frame
     void Update()
     {
-        UpdateData();
+        
     }
 }

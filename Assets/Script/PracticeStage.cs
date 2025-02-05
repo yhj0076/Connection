@@ -30,8 +30,7 @@ public class PracticeStage : Stage
 
     void FastAddDmg()
     {
-        Console.WriteLine();
-        StageManager.GetComponent<TutorialStageManager>().PlayerPower += gainedDamage;
-        gainedDamage = 0;
+        Debug.Log("damage Add");
+        StageManager.GetComponent<TutorialStageManager>().UpdateData();
     }
 }
