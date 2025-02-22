@@ -150,6 +150,18 @@ public class Stage : MonoBehaviour
         rigid.velocity = Vector2.right * 3;
     }
 
+    private void UpdateData2()
+    {
+        if (StageManager.GetComponent<MainStageManager>() != null)
+        {
+            StageManager.GetComponent<MainStageManager>().UpdateData();
+        }
+        else
+        {
+            StageManager.GetComponent<TutorialStageManager>().UpdateData();
+        }
+    }
+
     protected void MouseUpdate()
     {
         LineRenderer line = this.GetComponent<LineRenderer>();
@@ -176,6 +188,7 @@ public class Stage : MonoBehaviour
                     //BulletMaker.GetComponent<BulletMaker>().MakeBullet(destroyCount);
                     hit.collider.GetComponent<ChanceBullet>().DestroyThis();
                     Destroy(hit.collider.gameObject);
+                    UCP++;
                 }
             }
         }
@@ -205,6 +218,11 @@ public class Stage : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
+            if (LL < choose.Count)
+            {
+                LL = choose.Count;
+            }
+
             if (choose.Count >= 5)
             {
                 MakeChanceBullet(choose.Count);
@@ -224,9 +242,10 @@ public class Stage : MonoBehaviour
             {
                 bullets.GetComponent<Bullet>().choosed = false;
             }
+            ABP += choose.Count;
             choose.Clear();
             line.positionCount = 0;
-            StageManager.GetComponent<StageManager>().UpdateData();
+            UpdateData2();
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -241,6 +260,9 @@ public class Stage : MonoBehaviour
             Shaking = false;
         }
     }   // 테스트용 마우스 조작 메서드
+
+    
+
     protected void TouchUpdate()
     {
         LineRenderer line = this.GetComponent<LineRenderer>();
@@ -325,7 +347,7 @@ public class Stage : MonoBehaviour
                 ABP += choose.Count;
                 choose.Clear();
                 line.positionCount = 0;
-                StageManager.GetComponent<StageManager>().UpdateData();
+                UpdateData2();
             }
         }
 

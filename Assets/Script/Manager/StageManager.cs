@@ -23,11 +23,11 @@ public class StageManager : MonoBehaviour
 
     public float LeftTime;
 
-    State state;
+    protected State state;
 
-    float tmpTime;
-    Vector2 firstSizePlayer;
-    Vector2 firstSizeEnemy;
+    protected float tmpTime;
+    protected Vector2 firstSizePlayer;
+    protected Vector2 firstSizeEnemy;
     // ∫Ò¿≤ : Player / Player + Enemy
     // Start is called before the first frame update
 
@@ -37,32 +37,8 @@ public class StageManager : MonoBehaviour
     public int UCP;
     public float DPR;
 
-    int CountRound;
-    int AllDMG;
-    void Awake()
-    {
-        state = State.InGame;
-        tmpTime = LeftTime;
-        firstSizePlayer = PlayerRatio.GetComponent<RectTransform>().sizeDelta;
-        firstSizeEnemy = EnemyRatio.GetComponent<RectTransform>().sizeDelta;
-        Time.timeScale = 1;
-
-        ABT = 0;
-        ABP = 0;
-        LL = 0;
-        UCP = 0;
-        DPR = 0;
-        CountRound = 0;
-    }
-
-    private void Update()
-    {
-        if (state == State.InGame)
-        {
-            Timer();
-        }
-        UpdateData();
-    }
+    protected int CountRound;
+    protected int AllDMG;
 
     public void UpdateData()
     {
@@ -76,8 +52,6 @@ public class StageManager : MonoBehaviour
         {
             PlayerPower = Stage.GetComponent <PracticeStage>().gainedDamage;
         }
-
-
 
         if (PlayerPower == 0)
         {
@@ -136,7 +110,7 @@ public class StageManager : MonoBehaviour
         return Stage.GetComponent<Stage>().UCP;
     }
 
-    private void GetAllDmg()
+    protected void GetAllDmg()
     {
         AllDMG += Stage.GetComponent<Stage>().gainedDamage;
     }
@@ -146,7 +120,12 @@ public class StageManager : MonoBehaviour
         return AllDMG / CountRound;
     }
 
-    private void Timer()
+    protected float GetDPRPractice()
+    {
+        return Stage.GetComponent<Stage>().gainedDamage / CountRound;
+    }
+
+    protected void Timer()
     {
         if (LeftTime > 0)
         {
@@ -181,7 +160,7 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    enum State
+    protected enum State
     {
         InGame,
         Stop

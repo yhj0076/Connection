@@ -27,6 +27,44 @@ public class ClearStatManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GetResult();
+    }
+
+    protected void PrintResult()
+    {
+        PrintABT();
+        PrintABP();
+        PrintLL();
+        PrintUCP();
+        PrintDPR();
+    }
+
+    protected void PrintABT()
+    {
+        ABT_text.GetComponent<TextMeshProUGUI>().text = "총 플레이 시간 : " + (int)ABT;
+    }
+    protected void PrintABP()
+    {
+        ABP_text.GetComponent<TextMeshProUGUI>().text = "파괴된 포션 : " + ABP;
+    }
+
+    protected void PrintLL()
+    {
+        LL_text.GetComponent<TextMeshProUGUI>().text = "가장 긴 링크 : " + LL;
+    }
+
+    protected void PrintUCP()
+    {
+        UCP_text.GetComponent<TextMeshProUGUI>().text = "사용한 특수포션 : " + UCP;
+    }
+
+    protected void PrintDPR()
+    {
+        DPR_text.GetComponent<TextMeshProUGUI>().text = "평균 데미지 : " + ((int)DPR * 100) / 100;
+    }
+
+    void GetResult()
+    {
         ABT = SecurityPlayerPrefs.GetFloat("ABT", 0);
         ABP = SecurityPlayerPrefs.GetInt("ABP", 0);
         LL = SecurityPlayerPrefs.GetInt("LL", 0);
@@ -39,10 +77,6 @@ public class ClearStatManager : MonoBehaviour
         SecurityPlayerPrefs.SetInt("UCP", 0);
         SecurityPlayerPrefs.SetFloat("DPR", 0);
 
-        ABT_text.GetComponent<TextMeshProUGUI>().text = "총 플레이 시간 : " + (int)ABT;
-        ABP_text.GetComponent<TextMeshProUGUI>().text = "총 파괴된 포션 : " + ABP;
-        LL_text.GetComponent<TextMeshProUGUI>().text = "가장 긴 링크 : " + LL;
-        UCP_text.GetComponent<TextMeshProUGUI>().text = "사용한 특수포션 : " + UCP;
-        DPR_text.GetComponent<TextMeshProUGUI>().text = "평균 데미지 : " + ((int)DPR*100)/100;
+        PrintResult();
     }
 }
