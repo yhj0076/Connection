@@ -6,6 +6,9 @@ public class MainStageManager : StageManager
 {
     private void Awake()
     {
+        LeftRatio = 0.5f;
+        RightRatio = 0.5f;
+
         state = State.InGame;
         tmpTime = LeftTime;
         firstSizePlayer = PlayerRatio.GetComponent<RectTransform>().sizeDelta;

@@ -7,6 +7,7 @@ public class TutorialStageManager : StageManager
 {
     public GameObject ResultWindow;
     public float ReadyTime; // 준비 시간
+    public int Round;
 
     private void Awake()
     {
@@ -58,10 +59,12 @@ public class TutorialStageManager : StageManager
         }
         else
         {
+            CountRound++;
+            GetAllDmg();
             ABP = GetABP();
             LL = GetLL();
             UCP = GetUCP();
-            DPR = Stage.GetComponent<Stage>().gainedDamage;
+            DPR = GetDPR();
             ResultWindow.gameObject.SetActive(true);
         }
     }

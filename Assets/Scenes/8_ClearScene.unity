@@ -372,6 +372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  gameManager: {fileID: 0}
 --- !u!95 &179213522
 Animator:
   serializedVersion: 5
@@ -604,6 +605,7 @@ GameObject:
   m_Component:
   - component: {fileID: 313970756}
   - component: {fileID: 313970757}
+  - component: {fileID: 313970758}
   m_Layer: 0
   m_Name: ClearManager
   m_TagString: Untagged
@@ -636,6 +638,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 864e852ea653e2d4da0f536510ff6804, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ABT_text: {fileID: 1363732691}
+  ABP_text: {fileID: 2042313152}
+  LL_text: {fileID: 957872355}
+  UCP_text: {fileID: 273890645}
+  DPR_text: {fileID: 1610484994}
+--- !u!114 &313970758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313970755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7f32b4076d05242b173359d5af87f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ABT_text: {fileID: 1363732691}
@@ -2601,7 +2620,7 @@ SceneRoots:
   - {fileID: 1544514506}
   - {fileID: 1208654811}
   - {fileID: 1113107471}
-  - {fileID: 1642602183}
   - {fileID: 1464231155}
   - {fileID: 782020845}
   - {fileID: 179213524}
+  - {fileID: 1642602183}

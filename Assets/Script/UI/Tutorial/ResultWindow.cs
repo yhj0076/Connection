@@ -5,10 +5,10 @@ using UnityEngine;
 public class ResultWindow : ClearStatManager
 {
     public GameObject tutorialStageManager;
-    public int ABP;
-    public int LL;
-    public int UCP;
-    public float DPR;
+    //public int ABP;
+    //public int LL;
+    //public int UCP;
+    //public float DPR;
 
     private void OnEnable()
     {
@@ -23,10 +23,10 @@ public class ResultWindow : ClearStatManager
     void GetResultInPractice()
     {
         TutorialStageManager tutorial = tutorialStageManager.GetComponent<TutorialStageManager>();
-        ABP = tutorial.GetABP();
-        LL = tutorial.GetLL();
-        UCP = tutorial.GetUCP();
-        DPR = tutorial.GetDPR();
+        ABP = tutorial.ABP;
+        LL = tutorial.LL;
+        UCP = tutorial.UCP;
+        DPR = tutorial.DPR;
 
         PrintABP();
         PrintLL();

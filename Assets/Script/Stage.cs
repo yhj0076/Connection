@@ -158,7 +158,7 @@ public class Stage : MonoBehaviour
         }
         else
         {
-            StageManager.GetComponent<TutorialStageManager>().UpdateData();
+            //StageManager.GetComponent<TutorialStageManager>().UpdateData();
         }
     }
 
@@ -242,7 +242,10 @@ public class Stage : MonoBehaviour
             {
                 bullets.GetComponent<Bullet>().choosed = false;
             }
-            ABP += choose.Count;
+            if (choose.Count >= 2)
+            {
+                ABP += choose.Count;
+            }
             choose.Clear();
             line.positionCount = 0;
             UpdateData2();
@@ -344,7 +347,10 @@ public class Stage : MonoBehaviour
                 {
                     bullets.GetComponent<Bullet>().choosed = false;
                 }
-                ABP += choose.Count;
+                if (choose.Count >= 2)
+                {
+                    ABP += choose.Count;
+                }
                 choose.Clear();
                 line.positionCount = 0;
                 UpdateData2();

@@ -14,21 +14,16 @@ using UnityEngine;
 public class ClearStatManager : MonoBehaviour
 {
     float ABT;
-    int ABP;
-    int LL;
-    int UCP;
-    float DPR;
+    protected int ABP;
+    protected int LL;
+    protected int UCP;
+    protected float DPR;
 
     public GameObject ABT_text;
     public GameObject ABP_text;
     public GameObject LL_text;
     public GameObject UCP_text;
     public GameObject DPR_text;
-    // Start is called before the first frame update
-    void Start()
-    {
-        GetResult();
-    }
 
     protected void PrintResult()
     {
@@ -63,7 +58,7 @@ public class ClearStatManager : MonoBehaviour
         DPR_text.GetComponent<TextMeshProUGUI>().text = "Æò±Õ µ¥¹ÌÁö : " + ((int)DPR * 100) / 100;
     }
 
-    void GetResult()
+    protected void GetResult()
     {
         ABT = SecurityPlayerPrefs.GetFloat("ABT", 0);
         ABP = SecurityPlayerPrefs.GetInt("ABP", 0);

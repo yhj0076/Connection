@@ -13,7 +13,7 @@ public class PracticeStage : Stage
     // Start is called before the first frame update
     void Start()
     {
-        StageManager.GetComponent<TutorialStageManager>().UpdateData();
+        //StageManager.GetComponent<TutorialStageManager>().UpdateData();
         BulletMaker.GetComponent<BulletMaker>().MakeBullet(MaxBullet);
     }
 
@@ -31,6 +31,6 @@ public class PracticeStage : Stage
     void FastAddDmg()
     {
         Debug.Log("damage Add");
-        StageManager.GetComponent<TutorialStageManager>().UpdateData();
+        //StageManager.GetComponent<TutorialStageManager>().UpdateData();
     }
 }

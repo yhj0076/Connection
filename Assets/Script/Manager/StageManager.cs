@@ -18,8 +18,8 @@ public class StageManager : MonoBehaviour
     public float PlayerPower;
     public float EnemyPower;
 
-    public float LeftRatio = 0.5f;
-    public float RightRatio = 0.5f;
+    public float LeftRatio;
+    public float RightRatio;
 
     public float LeftTime;
 
@@ -97,32 +97,58 @@ public class StageManager : MonoBehaviour
 
     public int GetABP()
     {
-        return Stage.GetComponent<Stage>().ABP;
+        if (Stage.GetComponent<Stage>() != null)
+        {
+            return Stage.GetComponent<Stage>().ABP;
+        }
+        else
+        {
+            return Stage.GetComponent<PracticeStage>().ABP;
+        }
     }
 
     public int GetLL()
     {
-        return Stage.GetComponent<Stage>().LL;
+        if (Stage.GetComponent<Stage>() != null)
+        {
+            return Stage.GetComponent<Stage>().LL;
+        }
+        else
+        {
+            return Stage.GetComponent<PracticeStage>().LL;
+        }
     }
 
     public int GetUCP()
     {
-        return Stage.GetComponent<Stage>().UCP;
+        if (Stage.GetComponent<Stage>() != null)
+        {
+            return Stage.GetComponent<Stage>().UCP;
+        }
+        else
+        {
+            return Stage.GetComponent<PracticeStage>().UCP;
+        }
     }
 
     protected void GetAllDmg()
     {
-        AllDMG += Stage.GetComponent<Stage>().gainedDamage;
+        int gained;
+        if (Stage.GetComponent<Stage>() != null)
+        {
+            gained = Stage.GetComponent<Stage>().gainedDamage;
+        }
+        else
+        {
+            gained = Stage.GetComponent<PracticeStage>().gainedDamage;
+        }
+
+        AllDMG += gained;
     }
 
     public float GetDPR()
     {
         return AllDMG / CountRound;
-    }
-
-    protected float GetDPRPractice()
-    {
-        return Stage.GetComponent<Stage>().gainedDamage / CountRound;
     }
 
     protected void Timer()
