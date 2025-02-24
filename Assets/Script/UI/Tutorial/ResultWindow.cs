@@ -36,6 +36,8 @@ public class ResultWindow : ClearStatManager
 
     void RefreshData()
     {
+        TutorialStageManager tutorial = tutorialStageManager.GetComponent<TutorialStageManager>();
+        tutorial.Restart();
         ABP = 0;
         LL = 0;
         UCP = 0;

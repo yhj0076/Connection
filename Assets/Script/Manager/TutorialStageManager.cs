@@ -9,6 +9,8 @@ public class TutorialStageManager : StageManager
     public float ReadyTime; // 준비 시간
     public int Round;
 
+    float tmpReadyTime;
+
     private void Awake()
     {
         state = State.InGame;
@@ -30,7 +32,7 @@ public class TutorialStageManager : StageManager
     {
         if (state == State.InGame)
         {
-            if (ReadyTime <= 0)
+            if (tmpReadyTime <= 0)
             {
                 PracticeTimer();
             }
@@ -43,9 +45,9 @@ public class TutorialStageManager : StageManager
 
     void TimerStart()
     {
-        if (ReadyTime > 0) 
+        if (tmpReadyTime > 0) 
         {
-            ReadyTime -= Time.deltaTime;
+            tmpReadyTime -= Time.deltaTime;
         }
     }
 
@@ -67,5 +69,12 @@ public class TutorialStageManager : StageManager
             DPR = GetDPR();
             ResultWindow.gameObject.SetActive(true);
         }
+    }
+
+    public void Restart()
+    {
+        AllDMG = 0;
+        tmpReadyTime = ReadyTime;
+        LeftTime = tmpTime;
     }
 }

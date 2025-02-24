@@ -1,10 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PracticeStage : Stage
 {
+    public GameObject FastAdd;
+
     private void Awake()
     {
         Sensitivity = SecurityPlayerPrefs.GetFloat("sensitive", 5);
@@ -31,6 +34,7 @@ public class PracticeStage : Stage
     void FastAddDmg()
     {
         Debug.Log("damage Add");
+        FastAdd.GetComponent<TextMeshProUGUI>().text = gainedDamage.ToString();
         //StageManager.GetComponent<TutorialStageManager>().UpdateData();
     }
 }
