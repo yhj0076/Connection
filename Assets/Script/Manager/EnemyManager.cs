@@ -101,7 +101,7 @@ public class EnemyManager : MonoBehaviour
             }
             EnemyPower += dmg;
             movingTime = thinkTime;
-            StageManager.GetComponent<StageManager>().EnemyPower = EnemyPower;
+            StageManager.GetComponent<MultiStageManager>().EnemyPower = EnemyPower;
         }
     }
 

@@ -1,9 +1,10 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class StageManager : MonoBehaviour
+public class MultiStageManager : MonoBehaviourPun
 {
     public GameObject HealthManager;
     public GameObject timeText;
@@ -49,7 +50,7 @@ public class StageManager : MonoBehaviour
         }
         else if (practiceComponent != null)
         {
-            PlayerPower = Stage.GetComponent <PracticeStage>().gainedDamage;
+            PlayerPower = Stage.GetComponent<PracticeStage>().gainedDamage;
         }
 
         if (PlayerPower == 0)
@@ -65,7 +66,7 @@ public class StageManager : MonoBehaviour
             if (PlayerPower > 0)
             {
                 LeftRatio = PlayerPower / (PlayerPower + EnemyPower);
-                if(LeftRatio > 0.9f)
+                if (LeftRatio > 0.9f)
                 {
                     LeftRatio = 0.9f;
                 }
@@ -79,7 +80,7 @@ public class StageManager : MonoBehaviour
             {
                 RightRatio = EnemyPower / (PlayerPower + EnemyPower);
                 if (RightRatio > 0.9f)
-                {   
+                {
                     RightRatio = 0.9f;
                 }
             }
@@ -164,7 +165,7 @@ public class StageManager : MonoBehaviour
             EnemyPower = EnemyController.GetComponent<EnemyManager>().EnemyPower;
             // Attack
             float dmg = PlayerPower - EnemyPower;
-            HealthManager.GetComponent<HealthManager>().Attack(dmg);
+            HealthManager.GetComponent<HostHealthManager>().MultiAttack(dmg);
             LeftTime = tmpTime;
             Stage.GetComponent<Stage>().gainedDamage = 0;
             PlayerPower = 0;

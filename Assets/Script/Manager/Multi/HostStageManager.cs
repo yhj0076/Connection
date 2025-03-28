@@ -1,9 +1,11 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainStageManager : MultiStageManager
+public class HostStageManager : StageManager
 {
+    private PhotonView _view;
     private void Awake()
     {
         LeftRatio = 0.5f;
@@ -13,6 +15,7 @@ public class MainStageManager : MultiStageManager
         tmpTime = LeftTime;
         firstSizePlayer = PlayerRatio.GetComponent<RectTransform>().sizeDelta;
         firstSizeEnemy = EnemyRatio.GetComponent<RectTransform>().sizeDelta;
+        _view = gameObject.GetComponent<PhotonView>();
         Time.timeScale = 1;
 
         ABT = 0;
@@ -29,7 +32,14 @@ public class MainStageManager : MultiStageManager
         if (state == State.InGame)
         {
             Timer();
+            _view.RPC("synchronizeTime", RpcTarget.Others, LeftTime);
         }
-        UpdateData();
+        _view.RPC("UpdateData",RpcTarget.All);
+    }
+
+    [PunRPC]
+    void SynchronizeTime(float leftTime)
+    {
+        LeftTime = leftTime;
     }
 }
