@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Stage : MonoBehaviour
 {
-    Vector3 accelerationDir;    // 가속도 계산을 위한 좌표
+    protected Vector3 accelerationDir;    // 가속도 계산을 위한 좌표
     public float Sensitivity;   // 흔들기 민감도
 
     public GameObject SFX;
@@ -216,6 +216,7 @@ public class Stage : MonoBehaviour
             Shaking = false;
         }
     }
+
     void TouchUpdate()
     {
         LineRenderer line = this.GetComponent<LineRenderer>();
@@ -307,7 +308,7 @@ public class Stage : MonoBehaviour
         isShaked();
     }
 
-    void isShaked()
+    protected void isShaked()
     {
         accelerationDir = Input.acceleration;
 

@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using Script._ServerControl.Client.Packet;
 using ServerCore;
 
 public class PacketManager
 {
     #region Singleton
-    static PacketManager _instance = new PacketManager();
+    private static PacketManager _instance = new PacketManager();
     public static PacketManager Instance { get { return _instance; } }
     #endregion
 
@@ -13,30 +14,34 @@ public class PacketManager
     {
         Register();
     }
-
-    Dictionary<ushort, Func<PacketSession,ArraySegment<byte>, IPacket>> _makeFunc =  new Dictionary<ushort, Func<PacketSession, ArraySegment<byte>, IPacket>>();
-    Dictionary<ushort, Action<PacketSession, IPacket>> _handler = new Dictionary<ushort, Action<PacketSession, IPacket>>();
     
+    Dictionary<ushort, Func<PacketSession, ArraySegment<byte>, IPacket>> _makeFunc = new Dictionary<ushort, Func<PacketSession, ArraySegment<byte>, IPacket>>();
+    Dictionary<ushort, Action<PacketSession, IPacket>> _handler = new Dictionary<ushort, Action<PacketSession, IPacket>>();
+
     public void Register()
     {
-      _makeFunc.Add((ushort)PacketID.S_BroadcastEnterGame, MakePacket<S_BroadcastEnterGame>);
-        _handler.Add((ushort)PacketID.S_BroadcastEnterGame, PacketHandler.S_BroadcastEnterGameHandler);
-      _makeFunc.Add((ushort)PacketID.S_BroadcastLeaveGame, MakePacket<S_BroadcastLeaveGame>);
-        _handler.Add((ushort)PacketID.S_BroadcastLeaveGame, PacketHandler.S_BroadcastLeaveGameHandler);
-      _makeFunc.Add((ushort)PacketID.S_PlayerList, MakePacket<S_PlayerList>);
-        _handler.Add((ushort)PacketID.S_PlayerList, PacketHandler.S_PlayerListHandler);
-      _makeFunc.Add((ushort)PacketID.S_BroadcastMove, MakePacket<S_BroadcastMove>);
-        _handler.Add((ushort)PacketID.S_BroadcastMove, PacketHandler.S_BroadcastMoveHandler);
+        _makeFunc.Add((ushort)PacketType.S_JoinGameRoom, MakePacket<S_JoinGameRoom>);
+        _handler.Add((ushort)PacketType.S_JoinGameRoom, PacketHandler.S_JoinGameRoomHandler);
+        _makeFunc.Add((ushort)PacketType.S_BroadcastGameStart, MakePacket<S_BroadcastGameStart>);
+        _handler.Add((ushort)PacketType.S_BroadcastGameStart, PacketHandler.S_BroadcastGameStartHandler);
+        _makeFunc.Add((ushort)PacketType.S_BroadcastEndGame, MakePacket<S_BroadcastEndGame>);
+        _handler.Add((ushort)PacketType.S_BroadcastEndGame, PacketHandler.S_BroadcastEndGameHandler);
+        _makeFunc.Add((ushort)PacketType.S_BroadcastLeaveGame, MakePacket<S_BroadcastLeaveGame>);
+        _handler.Add((ushort)PacketType.S_BroadcastLeaveGame, PacketHandler.S_BroadcastLeaveGameHandler);
+        _makeFunc.Add((ushort)PacketType.S_AttackResult, MakePacket<S_AttackResult>);
+        _handler.Add((ushort)PacketType.S_AttackResult, PacketHandler.S_AttackResultHandler);
+        _makeFunc.Add((ushort)PacketType.S_BroadCastGainedDmg, MakePacket<S_BroadCastGainedDmg>);
+        _handler.Add((ushort)PacketType.S_BroadCastGainedDmg, PacketHandler.S_BroadCastGainedDmgHandler);
 
     }
-    
+
     public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer, Action<PacketSession, IPacket> onRecvCallback = null)
     {
         ushort count = 0;
         ushort size = BitConverter.ToUInt16(buffer.Array, buffer.Offset);
-        count += 2;
+        count += sizeof(ushort);
         ushort id = BitConverter.ToUInt16(buffer.Array, buffer.Offset + count);
-        count += 2;
+        count += sizeof(ushort);
         
         Func<PacketSession, ArraySegment<byte>, IPacket> func = null;
         if (_makeFunc.TryGetValue(id, out func))
@@ -48,7 +53,7 @@ public class PacketManager
                 HandlePacket(session, packet);
         }
     }
-
+    
     T MakePacket<T>(PacketSession packetSession, ArraySegment<byte> buffer) where T : IPacket, new()
     {
         T packet = new T();
@@ -59,7 +64,7 @@ public class PacketManager
     public void HandlePacket(PacketSession session, IPacket packet)
     {
         Action<PacketSession, IPacket> action = null;
-        if( _handler.TryGetValue(packet.Protocol, out action))
+        if(_handler.TryGetValue(packet.Protocol, out action))
             action.Invoke(session, packet);
     }
 }

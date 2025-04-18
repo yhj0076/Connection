@@ -1,28 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Net.WebSockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServerCore
 {
     public class Listener
     {
         Socket _listenSocket;
-        Func<Session> _sessionFactory;
+        private Func<Session> _sessionFactory;
 
-        public void init(IPEndPoint endPoint, Func<Session> sessionFactory, int register = 10, int backlog = 100)
+        public void init(IPEndPoint endpoint, Func<Session> sessionFactory, int register = 10, int backlog = 100)
         {
-            _listenSocket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            _listenSocket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             _sessionFactory += sessionFactory;
-            // 문지기 교육
-            _listenSocket.Bind(endPoint);
-
-            // 영업 시작
-            // backlog : 최대 대기수
+        
+            _listenSocket.Bind(endpoint);
+        
             _listenSocket.Listen(backlog);
 
             for (int i = 0; i < register; i++)
@@ -33,18 +26,16 @@ namespace ServerCore
             }
         }
 
-        void RegisterAccept(SocketAsyncEventArgs args)
+        private void RegisterAccept(SocketAsyncEventArgs args)
         {
             args.AcceptSocket = null;
-
+        
             bool _pending = _listenSocket.AcceptAsync(args);
-            if (_pending == false)
-            {
+            if(_pending == false)
                 OnAcceptCompleted(null, args);
-            }
         }
 
-        void OnAcceptCompleted(Object sender, SocketAsyncEventArgs args)
+        private void OnAcceptCompleted(object? sender, SocketAsyncEventArgs args)
         {
             if (args.SocketError == SocketError.Success)
             {
@@ -56,7 +47,7 @@ namespace ServerCore
             {
                 Console.WriteLine(args.SocketError.ToString());
             }
-
+        
             RegisterAccept(args);
         }
     }

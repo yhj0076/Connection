@@ -29,4 +29,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/4_FailedScene.unity
     guid: 4b2f5bb362acc25489128cb53cd23109
+  - enabled: 1
+    path: Assets/Scenes/Multi/MultiLobby.unity
+    guid: 883f53bf3987675428ecfbe2da237dbe
+  - enabled: 1
+    path: Assets/Scenes/Multi/MultiStage.unity
+    guid: c54a656e473480140a5bb834234f93fd
   m_configObjects: {}
