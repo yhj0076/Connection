@@ -8,6 +8,22 @@ using UnityEngine;
 
 public class NetworkManager : MonoBehaviour
 {
+    public static NetworkManager Instance;
+    
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Debug.Log("NetworkManager is already exist");
+            Destroy(gameObject);
+        }
+    }
+    
     ServerSession _session = new ServerSession();
 
     public void Send(ArraySegment<byte> sendBuff)
@@ -40,6 +56,11 @@ public class NetworkManager : MonoBehaviour
         {
             PacketManager.Instance.HandlePacket(_session, packet);
         }
+    }
+
+    public void disconnect()
+    {
+        _session.DisConnect();
     }
 
     
