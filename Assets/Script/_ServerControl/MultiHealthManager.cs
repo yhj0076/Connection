@@ -8,8 +8,6 @@ namespace Script._ServerControl
         float _playerHealth;
         float _enemyHealth;
         
-        public int Damage { get; set; }
-        
         private void Start()
         {
             _playerHealth = 100;
@@ -22,20 +20,20 @@ namespace Script._ServerControl
 
             StageManager = GameObject.Find("StageManager");
             Stage = GameObject.Find("Stage");
-            Player = GameObject.Find("Player");
-            Enemy = GameObject.Find("EnemyPlayer");
+            Player = GameObject.Find("Host");
+            Enemy = GameObject.Find("Guest");
         }
 
-        void Calculate()
+        public void Calculate(int damage)
         {
-            if(Damage > 0)
+            if(damage > 0)
             {
-                _enemyHealth -= Damage;
+                _enemyHealth += damage;
                 Player.GetComponent<PlayerAnimation>().toAttack();
-                if (_enemyHealth > 0)
+                if (_playerHealth > 0)
                 {
                     Enemy.GetComponent<PlayerAnimation>().toDamage();
-                    Vector2 DMG = new Vector2(_enemyHealth / EnemyFullHP, 1);
+                    Vector2 DMG = new Vector2(_playerHealth / PlayerFullHP, 1);
                     EnemyHP.GetComponent<RectTransform>().sizeDelta = EnemyFullGage * DMG;
                 }
                 else
@@ -47,9 +45,9 @@ namespace Script._ServerControl
                     EnemyHP.GetComponent<RectTransform>().sizeDelta = EnemyFullGage * DMG;
                 }
             }
-            else if(Damage < 0)
+            else if(damage < 0)
             {
-                _playerHealth += Damage;
+                _playerHealth += damage;
                 Enemy.GetComponent<PlayerAnimation>().toAttack();
                 if (_playerHealth > 0)
                 {
