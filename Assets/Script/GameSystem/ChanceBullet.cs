@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Script._ServerControl;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -14,15 +15,28 @@ public class ChanceBullet : MonoBehaviour
     public GameObject BulletMaker;
     public int DMG;
 
+    private NetworkManager networkManager;
+    private MultiStage multiStage;
+    
     private void Start()
     {
         BulletMaker = this.transform.parent.gameObject;
         SFX = GameObject.Find("SFX");
+        networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        multiStage = FindObjectOfType<MultiStage>().GetComponent<MultiStage>();
     }
 
     public void AddDMG()
     {
-        GameObject.FindObjectOfType<Stage>().GetComponent<Stage>().gainedDamage += DMG;
+        if(GameObject.FindObjectOfType<Stage>() != null)
+            GameObject.FindObjectOfType<Stage>().GetComponent<Stage>().gainedDamage += DMG;
+        else if (multiStage is not null)
+        {
+            C_GainedDmg cGainedDmg = new C_GainedDmg();
+            cGainedDmg.gainedDmg = DMG;
+            networkManager.Send(cGainedDmg.Write());
+            multiStage.gainedDamage += DMG;
+        }
     }
 
     public  void DestroyThis()
