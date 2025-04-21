@@ -15,6 +15,10 @@ namespace Script._ServerControl.Client.Packet
             if (lobby != null)
             {
                 lobby.GetComponent<MultiLobbyManager>().enemyExist = joinGameRoom.EnemyIsExist;
+                if(joinGameRoom.EnemyIsExist)
+                    Debug.Log("EnemyFound");
+                else
+                    Debug.Log("No Enemy Exist");
             }
         }
 
@@ -22,12 +26,19 @@ namespace Script._ServerControl.Client.Packet
         {
             S_BroadcastGameStart broadcastGameStart = packet as S_BroadcastGameStart;
             ServerSession serverSession = session as ServerSession;
+            GameObject lobby = GameObject.Find("LobbyControl");
+            if (lobby != null)
+            {
+                lobby.GetComponent<MultiLobbyManager>().enemyExist = true;
+                Debug.Log("Start");
+            }
         }
 
         public static void S_BroadcastEndGameHandler(PacketSession session, IPacket packet)
         {
             S_BroadcastEndGame endGame = packet as S_BroadcastEndGame;
             ServerSession serverSession = session as ServerSession;
+            Debug.Log($"Winner : {endGame.WinnerId}");
             serverSession.DisConnect();
         }
 
@@ -43,9 +54,9 @@ namespace Script._ServerControl.Client.Packet
             ServerSession serverSession = session as ServerSession;
             
             GameObject healthManager = GameObject.Find("HealthManager");
-            if (healthManager != null )
+            if (healthManager is not null )
             {
-                healthManager.GetComponent<MultiHealthManager>().Damage = attackResult.dmg;
+                healthManager.GetComponent<MultiHealthManager>().Calculate(attackResult.dmg);
             }
         }
 
@@ -57,11 +68,11 @@ namespace Script._ServerControl.Client.Packet
             // Console.WriteLine($"\tPlayer1 gainedDmg : {gainedDmg.HostGainedDmg}\n" +
             //                   $"\tPlayer2 gainedDmg : {gainedDmg.GuestGainedDmg}\n");
             
-            GameObject player = GameObject.Find("Player");
-            GameObject enemyPlayer = GameObject.Find("EnemyPlayer");
-            if (player != null && enemyPlayer != null)
+            GameObject stageManager = GameObject.Find("StageManager");
+            if (stageManager != null)
             {
-                // player.GetComponent<MultiHealthManager>().GainedDmg = gainedDmg.HostGainedDmg;
+                stageManager.GetComponent<MultiStageManager>().PlayerPower = gainedDmg.HostGainedDmg;
+                stageManager.GetComponent<MultiStageManager>().EnemyPower = gainedDmg.GuestGainedDmg;
             }
         }
     }
