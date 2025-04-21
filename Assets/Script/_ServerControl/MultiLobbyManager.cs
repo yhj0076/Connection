@@ -13,12 +13,12 @@ namespace Script._ServerControl
         public bool enemyExist = false;
         
         private float LeftTime;
-        private void Awake()
+        private void Start()
         {
             LeftTime = 3;
             gameManager = GameObject.Find("GameManager");
             networkManager = GameObject.Find("NetworkManager");
-            countText = GameObject.Find("CountText");
+            countText = GameObject.Find("countText");
             announce = GameObject.Find("Announce");
         }
         
@@ -30,7 +30,7 @@ namespace Script._ServerControl
                 if (LeftTime > 0)
                 {
                     LeftTime -= Time.deltaTime;
-                    countText.GetComponent<TextMeshProUGUI>().text = $"{(int)LeftTime}초 후 진입";
+                    countText.GetComponent<TextMeshProUGUI>().text = $"{(int)LeftTime + 1}초 후 진입";
                 }
                 else
                 {
