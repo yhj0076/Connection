@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Script._ServerControl;
 using ServerCore;
 using TMPro;
 using UnityEngine;
@@ -53,7 +55,10 @@ public class MultiStageManager : MonoBehaviour
         UCP = 0;
         DPR = 0;
         CountRound = 0;
-        
+    }
+
+    private void Start()
+    {
         _networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
     }
 
@@ -68,7 +73,6 @@ public class MultiStageManager : MonoBehaviour
 
     public void UpdateData()
     {
-        PlayerPower = Stage.GetComponent<Stage>().gainedDamage;
         if (PlayerPower == 0)
         {
             LeftRatio = 0.5f;
@@ -113,22 +117,22 @@ public class MultiStageManager : MonoBehaviour
 
     public int GetABP()
     {
-        return Stage.GetComponent<Stage>().ABP;
+        return Stage.GetComponent<MultiStage>().ABP;
     }
 
     public int GetLL()
     {
-        return Stage.GetComponent<Stage>().LL;
+        return Stage.GetComponent<MultiStage>().LL;
     }
 
     public int GetUCP()
     {
-        return Stage.GetComponent<Stage>().UCP;
+        return Stage.GetComponent<MultiStage>().UCP;
     }
 
     private void GetAllDmg()
     {
-        AllDMG += Stage.GetComponent<Stage>().gainedDamage;
+        AllDMG += Stage.GetComponent<MultiStage>().gainedDamage;
     }
 
     public float GetDPR()
@@ -148,6 +152,10 @@ public class MultiStageManager : MonoBehaviour
         {
             C_TimeUp cTimeUp = new C_TimeUp();
             _networkManager.Send(cTimeUp.Write());
+            LeftTime = tmpTime;
+            PlayerPower = 0;
+            EnemyPower = 0;
+            
         }
 
         ABT += Time.deltaTime;
