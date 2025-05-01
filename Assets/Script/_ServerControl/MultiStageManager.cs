@@ -66,7 +66,7 @@ public class MultiStageManager : MonoBehaviour
     {
         if (state == State.InGame)
         {
-            Timer();
+            //Timer();
         }
         UpdateData();
     }
@@ -140,7 +140,7 @@ public class MultiStageManager : MonoBehaviour
         return AllDMG / CountRound;
     }
 
-    private void Timer()
+    /*private void Timer()
     {
         if (LeftTime > 0)
         {
@@ -159,7 +159,7 @@ public class MultiStageManager : MonoBehaviour
         }
 
         ABT += Time.deltaTime;
-    }
+    }*/
 
     enum State
     {

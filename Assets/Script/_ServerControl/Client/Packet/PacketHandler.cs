@@ -1,5 +1,6 @@
 ﻿using Script._ServerControl.Session;
 using ServerCore;
+using TMPro;
 using UnityEngine;
 
 namespace Script._ServerControl.Client.Packet
@@ -73,6 +74,19 @@ namespace Script._ServerControl.Client.Packet
             {
                 stageManager.GetComponent<MultiStageManager>().PlayerPower = gainedDmg.HostGainedDmg;
                 stageManager.GetComponent<MultiStageManager>().EnemyPower = gainedDmg.GuestGainedDmg;
+            }
+        }
+
+        public static void S_TimerHandler(PacketSession session, IPacket packet)
+        {
+            S_Timer timer = packet as S_Timer;
+            ServerSession serverSession = session as ServerSession;
+            
+            MultiStageManager stageManager = GameObject.Find("StageManager").GetComponent<MultiStageManager>();
+            if (stageManager != null)
+            {
+                stageManager.LeftTime = timer.second;
+                stageManager.timeText.GetComponent<TextMeshProUGUI>().text = timer.second.ToString();
             }
         }
     }
