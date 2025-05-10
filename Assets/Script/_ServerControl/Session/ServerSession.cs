@@ -6,6 +6,8 @@ namespace Script._ServerControl.Session
 {
     public class ServerSession : PacketSession
     {
+        public int SessionId { get; set; }
+        
         public override void OnConnected(EndPoint endPoint)
         {
             // Console.WriteLine($"Connected to {endPoint}");

@@ -211,7 +211,7 @@ namespace Script._ServerControl
 
                 choose.Clear();
                 line.positionCount = 0;
-                StageManager.GetComponent<MultiStageManager>().UpdateData();
+                // StageManager.GetComponent<MultiStageManager>().UpdateData();
             }
 
             if (Input.GetKeyDown(KeyCode.Space))

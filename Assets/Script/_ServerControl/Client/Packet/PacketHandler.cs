@@ -16,6 +16,7 @@ namespace Script._ServerControl.Client.Packet
             if (lobby != null)
             {
                 lobby.GetComponent<MultiLobbyManager>().enemyExist = joinGameRoom.EnemyIsExist;
+                serverSession.SessionId = joinGameRoom.MySessionId;
                 if(joinGameRoom.EnemyIsExist)
                     Debug.Log("EnemyFound");
                 else
@@ -40,13 +41,26 @@ namespace Script._ServerControl.Client.Packet
             S_BroadcastEndGame endGame = packet as S_BroadcastEndGame;
             ServerSession serverSession = session as ServerSession;
             Debug.Log($"Winner : {endGame.WinnerId}");
+            if (serverSession.SessionId == endGame.WinnerId)
+            {
+                SecurityPlayerPrefs.SetString("isWin", "true");
+            }
+            else
+            {
+                SecurityPlayerPrefs.SetString("isWin", "false");
+            }
+
             serverSession.DisConnect();
+            GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            gameManager.MultiEnd();
         }
 
         public static void S_BroadcastLeaveGameHandler(PacketSession session, IPacket packet)
         {
             S_BroadcastLeaveGame leaveGame = packet as S_BroadcastLeaveGame;
             ServerSession serverSession = session as ServerSession;
+            
+            Debug.Log("Player Left");
         }
 
         public static void S_AttackResultHandler(PacketSession session, IPacket packet)
@@ -55,9 +69,11 @@ namespace Script._ServerControl.Client.Packet
             ServerSession serverSession = session as ServerSession;
             
             GameObject healthManager = GameObject.Find("HealthManager");
+            MultiStageManager stageManager = GameObject.Find("StageManager").GetComponent<MultiStageManager>();
             if (healthManager is not null )
             {
                 healthManager.GetComponent<MultiHealthManager>().Calculate(attackResult.dmg);
+                stageManager.UpdateData();
             }
         }
 
@@ -72,15 +88,18 @@ namespace Script._ServerControl.Client.Packet
             GameObject stageManager = GameObject.Find("StageManager");
             if (stageManager != null)
             {
+                Debug.Log("StageManager is not null");
                 stageManager.GetComponent<MultiStageManager>().PlayerPower = gainedDmg.HostGainedDmg;
                 stageManager.GetComponent<MultiStageManager>().EnemyPower = gainedDmg.GuestGainedDmg;
+                stageManager.GetComponent<MultiStageManager>().UpdateData();
             }
+            else
+                Debug.Log("StageManager is null");
         }
 
         public static void S_TimerHandler(PacketSession session, IPacket packet)
         {
             S_Timer timer = packet as S_Timer;
-            ServerSession serverSession = session as ServerSession;
             
             MultiStageManager stageManager = GameObject.Find("StageManager").GetComponent<MultiStageManager>();
             if (stageManager != null)

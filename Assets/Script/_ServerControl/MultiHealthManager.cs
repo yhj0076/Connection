@@ -74,7 +74,7 @@ namespace Script._ServerControl
             SecurityPlayerPrefs.SetInt("ABP", StageManager.GetComponent<MultiStageManager>().GetABP());
             SecurityPlayerPrefs.SetInt("LL", StageManager.GetComponent<MultiStageManager>().GetLL());
             SecurityPlayerPrefs.SetInt("UCP", StageManager.GetComponent<MultiStageManager>().GetUCP());
-            SecurityPlayerPrefs.SetFloat("DPR", StageManager.GetComponent<MultiStageManager>().GetDPR());
+            // SecurityPlayerPrefs.SetFloat("DPR", StageManager.GetComponent<MultiStageManager>().GetDPR());
         }
     }
 }

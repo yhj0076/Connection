@@ -62,57 +62,54 @@ public class MultiStageManager : MonoBehaviour
         _networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
     }
 
-    private void Update()
+    public void UpdateData()
     {
         if (state == State.InGame)
         {
-            //Timer();
-        }
-        UpdateData();
-    }
-
-    public void UpdateData()
-    {
-        if (PlayerPower == 0)
-        {
-            LeftRatio = 0.5f;
-        }
-        if (EnemyPower == 0)
-        {
-            RightRatio = 0.5f;
-        }
-        if (PlayerPower > 0 || EnemyPower > 0)
-        {
-            if (PlayerPower > 0)
+            if (PlayerPower == 0)
             {
-                LeftRatio = PlayerPower / (PlayerPower + EnemyPower);
-                if(LeftRatio > 0.9f)
+                LeftRatio = 0.5f;
+            }
+
+            if (EnemyPower == 0)
+            {
+                RightRatio = 0.5f;
+            }
+
+            if (PlayerPower > 0 || EnemyPower > 0)
+            {
+                if (PlayerPower > 0)
                 {
-                    LeftRatio = 0.9f;
+                    LeftRatio = PlayerPower / (PlayerPower + EnemyPower);
+                    if (LeftRatio > 0.9f)
+                    {
+                        LeftRatio = 0.9f;
+                    }
                 }
-            }
-            else
-            {
-                LeftRatio = 0.1f;
+                else
+                {
+                    LeftRatio = 0.1f;
+                }
+
+                if (EnemyPower > 0)
+                {
+                    RightRatio = EnemyPower / (PlayerPower + EnemyPower);
+                    if (RightRatio > 0.9f)
+                    {
+                        RightRatio = 0.9f;
+                    }
+                }
+                else
+                {
+                    RightRatio = 0.1f;
+                }
             }
 
-            if (EnemyPower > 0)
-            {
-                RightRatio = EnemyPower / (PlayerPower + EnemyPower);
-                if (RightRatio > 0.9f)
-                {   
-                    RightRatio = 0.9f;
-                }
-            }
-            else
-            {
-                RightRatio = 0.1f;
-            }
+            PlayerRatio.GetComponent<RectTransform>().sizeDelta = firstSizePlayer * new Vector2(LeftRatio, 1f);
+            PlayerDMG.GetComponent<TextMeshProUGUI>().text = PlayerPower.ToString();
+            EnemyRatio.GetComponent<RectTransform>().sizeDelta = firstSizeEnemy * new Vector2(RightRatio, 1f);
+            EnemyDMG.GetComponent<TextMeshProUGUI>().text = EnemyPower.ToString();
         }
-        PlayerRatio.GetComponent<RectTransform>().sizeDelta = firstSizePlayer * new Vector2(LeftRatio, 1f);
-        PlayerDMG.GetComponent<TextMeshProUGUI>().text = PlayerPower.ToString();
-        EnemyRatio.GetComponent<RectTransform>().sizeDelta = firstSizeEnemy * new Vector2(RightRatio, 1f);
-        EnemyDMG.GetComponent<TextMeshProUGUI>().text = EnemyPower.ToString();
     }
 
     public int GetABP()
@@ -135,10 +132,10 @@ public class MultiStageManager : MonoBehaviour
         AllDMG += Stage.GetComponent<MultiStage>().gainedDamage;
     }
 
-    public float GetDPR()
+    /*public float GetDPR()
     {
         return AllDMG / CountRound;
-    }
+    }*/
 
     /*private void Timer()
     {
@@ -164,6 +161,6 @@ public class MultiStageManager : MonoBehaviour
     enum State
     {
         InGame,
-        Stop
+        SearchingEnemy
     }
 }
