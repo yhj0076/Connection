@@ -61,6 +61,14 @@ namespace Script._ServerControl.Client.Packet
             ServerSession serverSession = session as ServerSession;
             
             Debug.Log("Player Left");
+            // serverSession.DisConnect();
+            
+            MultiStage stage = GameObject.Find("Stage").GetComponent<MultiStage>();
+
+            if (stage is not null)
+            {
+                stage.state = GameState.ConnectionFailed;
+            } 
         }
 
         public static void S_AttackResultHandler(PacketSession session, IPacket packet)

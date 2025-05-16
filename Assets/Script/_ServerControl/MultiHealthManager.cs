@@ -28,12 +28,12 @@ namespace Script._ServerControl
         {
             if(damage > 0)
             {
-                _enemyHealth += damage;
+                _enemyHealth -= damage;
                 Player.GetComponent<PlayerAnimation>().toAttack();
-                if (_playerHealth > 0)
+                if (_enemyHealth > 0)
                 {
                     Enemy.GetComponent<PlayerAnimation>().toDamage();
-                    Vector2 DMG = new Vector2(_playerHealth / PlayerFullHP, 1);
+                    Vector2 DMG = new Vector2(_enemyHealth / PlayerFullHP, 1);
                     EnemyHP.GetComponent<RectTransform>().sizeDelta = EnemyFullGage * DMG;
                 }
                 else

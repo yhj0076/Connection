@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Script._ServerControl.Session;
 using UnityEngine;
 
 namespace Script._ServerControl
@@ -18,15 +19,19 @@ namespace Script._ServerControl
         public List<GameObject> choose = new();
         public int gainedDamage = 0;
         public bool Shaking = false;
-
+        
         public GameObject explode;
         public GameObject[] same;
         public GameObject BigBang;
 
+        public GameState state;
+
+        public GameObject ConnectionFail;
+        
         public int ABP;
         public int LL;
         public int UCP;
-
+        
         private void Awake()
         {
             Sensitivity = SecurityPlayerPrefs.GetFloat("sensitive", 5);
@@ -34,6 +39,7 @@ namespace Script._ServerControl
 
         void Start()
         {
+            state = GameState.InGame;
             StageManager.GetComponent<MultiStageManager>().UpdateData();
             BulletMaker.GetComponent<BulletMaker>().MakeBullet(MaxBullet);
             ABP = 0;
@@ -41,10 +47,16 @@ namespace Script._ServerControl
 
         void Update()
         {
-            // TouchUpdate();
-            MouseUpdate();  // 컴퓨터 테스트용
+            if (state == GameState.InGame)
+            {
+                TouchUpdate();
+                // MouseUpdate(); // 컴퓨터 테스트용
+            }
+            else
+            {
+                ConnectionFail.SetActive(true);
+            }
         }
-
 
         void MakeChanceBullet(int BulletCount)
         {
@@ -58,7 +70,6 @@ namespace Script._ServerControl
                 No3Bomb.transform.position = midVector;
                 No3Bomb.transform.parent = BulletMaker.transform;
                 return;
-
             }
 
             if (BulletCount >= 7)

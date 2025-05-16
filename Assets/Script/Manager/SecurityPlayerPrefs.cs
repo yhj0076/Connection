@@ -23,10 +23,10 @@ public class SecurityPlayerPrefs
         byte[] saltBytes = new byte[] { 24, 99, 36, 34, 14, 56, 11, 20 };
 
         // 길이 상관 없고, 키를 만들기 위한 용도로 씀
-        string randomSeedForKey = "5b6fcb4aaaaslfcsdkjnlpa6s5d4f54as4df52sf4as8d4f3s2d1fasg94hasjlwgibvo236374234a5sd4";
+        string randomSeedForKey = "s5h12ljkh5l12h5l0zs7f071f278450fv9865b9f";
 
         // 길이 상관 없고, aes에 쓸 key 와 iv 를 만들 용도
-        string randomSeedForValue = "2e327725asgfxzdskjmlneivhaslxbhlshdflahf89841b5bb5c706d6b2ad897g3hj4khj96k4498465908165f6adsg4";
+        string randomSeedForValue = "6x896v986f9s69fva6srf9awseb34m5b32m5b2m";
 
         {
             Rfc2898DeriveBytes key = new Rfc2898DeriveBytes(randomSeedForKey, saltBytes, 1000);

@@ -43,8 +43,8 @@ public class Stage : MonoBehaviour
 
     void Update()
     {
-        // TouchUpdate();
-        MouseUpdate();
+        TouchUpdate();
+        // MouseUpdate();
     }
 
     // 특수 포션을 만드는 메서드

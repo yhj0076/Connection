@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Script._ServerControl;
+using Script._ServerControl.Session;
 using ServerCore;
 using TMPro;
 using UnityEngine;
@@ -23,7 +24,7 @@ public class MultiStageManager : MonoBehaviour
 
     public float LeftTime;
 
-    State state;
+    GameState state;
 
     float tmpTime;
     Vector2 firstSizePlayer;
@@ -43,7 +44,7 @@ public class MultiStageManager : MonoBehaviour
     int AllDMG;
     void Awake()
     {
-        state = State.InGame;
+        state = GameState.InGame;
         tmpTime = LeftTime;
         firstSizePlayer = PlayerRatio.GetComponent<RectTransform>().sizeDelta;
         firstSizeEnemy = EnemyRatio.GetComponent<RectTransform>().sizeDelta;
@@ -64,7 +65,7 @@ public class MultiStageManager : MonoBehaviour
 
     public void UpdateData()
     {
-        if (state == State.InGame)
+        if (state == GameState.InGame)
         {
             if (PlayerPower == 0)
             {
@@ -157,10 +158,4 @@ public class MultiStageManager : MonoBehaviour
 
         ABT += Time.deltaTime;
     }*/
-
-    enum State
-    {
-        InGame,
-        SearchingEnemy
-    }
 }
