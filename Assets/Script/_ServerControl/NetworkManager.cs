@@ -2,19 +2,25 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using Script._ServerControl;
 using Script._ServerControl.Session;
 using ServerCore;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NetworkManager : MonoBehaviour
 {
     public static NetworkManager Instance;
     
+    MultiLobbyManager multiLobbyManager;
+    
+    WifiLinkController wifiLinkController;
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            wifiLinkController = new WifiLinkController();
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -34,12 +40,14 @@ public class NetworkManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // DNS(Domain Name System
-        string host = Dns.GetHostName();
-        IPHostEntry ipHost = Dns.GetHostEntry(host);
-        IPAddress ipAddr = ipHost.AddressList[0];
-        IPEndPoint endPoint = new IPEndPoint(ipAddr, 8080);
+        EstablishConnection();
+    }
 
+    private void EstablishConnection()
+    {
+        // DNS(Domain Name System
+        IPAddress ipAddr = IPAddress.Parse("192.168.219.100"); 
+        IPEndPoint endPoint = new IPEndPoint(ipAddr, 8088);
         Connector connector = new Connector();
         connector.Connect(endPoint, () =>
         {
@@ -57,11 +65,9 @@ public class NetworkManager : MonoBehaviour
             PacketManager.Instance.HandlePacket(_session, packet);
         }
     }
-
+    
     public void disconnect()
     {
         _session.DisConnect();
     }
-
-    
 }
