@@ -35,15 +35,10 @@ public class MultiClearManager : MonoBehaviour
 
     private GameObject Host;
     private GameObject Guest;
-    // Start is called before the first frame update
-
-    private void Awake()
-    {
-        WinCheck = SecurityPlayerPrefs.GetString("isWin", "true") == "true";
-    }
 
     void Start()
     {
+        WinCheck = SecurityPlayerPrefs.GetString("isWin", "null") == "true";
         Host = GameObject.Find("Host");
         Guest = GameObject.Find("Guest");
         Result = GameObject.Find("Result");

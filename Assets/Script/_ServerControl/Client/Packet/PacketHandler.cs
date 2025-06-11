@@ -40,14 +40,16 @@ namespace Script._ServerControl.Client.Packet
         {
             S_BroadcastEndGame endGame = packet as S_BroadcastEndGame;
             ServerSession serverSession = session as ServerSession;
-            Debug.Log($"Winner : {endGame.WinnerId}");
-            if (serverSession.SessionId == endGame.WinnerId)
+            Debug.Log($"Winner : {endGame.isWin}");
+            if (endGame.isWin)
             {
                 SecurityPlayerPrefs.SetString("isWin", "true");
+                Debug.Log("Win");
             }
             else
             {
                 SecurityPlayerPrefs.SetString("isWin", "false");
+                Debug.Log("Lose");
             }
 
             serverSession.DisConnect();
